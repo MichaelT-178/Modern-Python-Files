@@ -13,7 +13,6 @@ import os
 from os.path import exists
 
 #Added when I moved the algorithm to Ancient-Python-Files
-os.chdir('..')
 os.chdir("../LivestreamDirectory/db_manager/main_algorithm")
 
 print(colored("REMEBER TO ADD THE YOUTUBE LINK", "magenta"))
@@ -382,6 +381,8 @@ for song in songs:
             if (artist == "Dire Straits"): other += "The Dire Straits, " 
             if (artist == "Joe Walsh"): other += "The Eagles, " 
             if (artist == "Elliott Smith"): other += "Elliot , "
+            if (artist == "Black Sabbath"): other += "Ozzy Osbourne, ";
+            if (artist == "Ozzy Osbourne"): other += "Black Sabbath, "
             if (title == "Trouble So Hard"): other += "Natural Blues by Moby, "
             if (title == "Natural Blues"): other += "Trouble So Hard by Vera Hall, "
             if (title == "Satisfied Mind"): other += "A Satisfied Mind, "
