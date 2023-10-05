@@ -1,5 +1,4 @@
 # Updated version of NameStats.py. Written on 4/13/2023. Original was ~136 lines, this is ~35 lines.
-# This is not connected with og_main_algorithm in anyway.
 og_name = input("Please enter your full name: ").strip()
 
 while len(og_name.split(" ")) != 3:
