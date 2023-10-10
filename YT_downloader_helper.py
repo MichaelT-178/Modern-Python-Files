@@ -25,10 +25,12 @@ import webbrowser #Just converting to mp4 on website is way faster than function
 CURRENT_DOWNLOAD_PATH = "../../a_songs_folder/"
 
 def time_to_seconds(time) -> int:
+    """ Converts int seconds to formatted time. """
     t = [int(x) for x in time.split(":")]
     return t[1] + (t[0] * 60) if (len(t) == 2) else t[2] + (t[1] * 60) + (t[0] * 3600)
 
 def seconds_to_time(seconds) -> str:
+    """ Converts time to seconds """
     if seconds < 60:
         return f"0:{seconds:02}"
     elif seconds < 3600:
