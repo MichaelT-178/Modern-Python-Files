@@ -1,5 +1,5 @@
 """
-Gets the title and link for every video in a 
+Gets the title, link, and length for every video in a 
 YouTube playlist
 """
 
@@ -119,6 +119,8 @@ if download_playlist.strip().upper() in ["YES", 'Y']:
     with open('videos.json', 'r') as file:
         data = json.load(file)
 
+    print("\nMake sure to manually add times to videos you only want specific parts from.")
+    
     download_with_time = input("\nReady to download? : ")
 
     if download_with_time.strip().upper() in ["YES", "Y"]:
@@ -134,10 +136,11 @@ if download_playlist.strip().upper() in ["YES", 'Y']:
                 print(f"\n{colored('Invalid End_Time attribute', 'red')}\n")
 
             download_length = seconds_to_time(seconds(video.End_Time) - seconds(video.Start_Time))
-
-            print(f"\nLength of download will be -> {download_length}")
-            os.system(f'yt-dlp {video.Title} "{video.Link}" --download-sections "*{video.Start_Time}-{video.End_Time}"')
-            print(colored("VIDEO SUCCESSFULLY DOWNLOADED\n", 'green'))
+            
+            if video.Start_Time != "" and video.End_Time != "":
+                print(f"\nLength of download will be -> {download_length}")
+                os.system(f'yt-dlp {video.Title} "{video.Link}" --download-sections "*{video.Start_Time}-{video.End_Time}"')
+                print(colored("VIDEO SUCCESSFULLY DOWNLOADED\n", 'green'))
 
     open_folder = input("\nOpen folder? : ")
 

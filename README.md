@@ -7,3 +7,4 @@ These are more modern python files I've created.
 - NameStatsUPDATED is a more cleanly written version of the original [NameStats](https://github.com/MichaelT-178/Ancient-Python-Files/blob/main/NameStats.py) program in the Ancient-Python-Files repository.
 - og_main_algorithm.py is the original main algorithm I used for the Livestream Directory. I've since rewritten the algorithm in Java
 to make it faster and more organized.
+- Get_YT_Playlist.py is a way to download an entire youtube playlist in one go.

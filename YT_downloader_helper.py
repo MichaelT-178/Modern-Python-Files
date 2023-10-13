@@ -20,9 +20,16 @@ except ModuleNotFoundError:
     os.system("pip3 install termcolor")
     from termcolor import colored as c
 
-import webbrowser #Just converting to mp4 on website is way faster than function.
+import webbrowser #Just converting to mp4 on website is way faster than doing it in the program.
 
-CURRENT_DOWNLOAD_PATH = "../../a_songs_folder/"
+CURRENT_DOWNLOAD_PATH = "../a_songs_folder/"
+
+if os.path.exists(CURRENT_DOWNLOAD_PATH):
+    print(f"{c('CURRENT DOWNLOAD PATH', 'magenta')}: {os.path.abspath(CURRENT_DOWNLOAD_PATH)}/")
+else:
+    print(c(f"\nPath does not exist: \"{CURRENT_DOWNLOAD_PATH}\"", 'red'))
+    print("Go and fix path\n")
+    exit(0)
 
 def time_to_seconds(time) -> int:
     """ Converts int seconds to formatted time. """
@@ -44,23 +51,18 @@ def seconds_to_time(seconds) -> str:
         seconds %= 60
         return f"{hours}:{minutes:02}:{seconds:02}"
 
-def has_numbers(inputString):
-    return any(char.isdigit() for char in inputString)
-
-print(f"{c('CURRENT DOWNLOAD PATH', 'magenta')}: {os.path.abspath(CURRENT_DOWNLOAD_PATH)}/")
-
 url = input(f"\nEnter {c('youtube link', 'red')} : ")
 
-download_specific_part = input(f"\nDo you want to download a {c('specific time interval', 'blue')}? : ")
+download_specific_part = input(f"\nDo you want to download a {c('specific time interval', 'blue')} (y/n) ? : ")
 
-while has_numbers(download_specific_part):
-    download_specific_part = input("\nDo you want to download a specific time interval? : ")
+while download_specific_part.strip().upper() not in ["YES", "Y", "NO", "N"]:
+    download_specific_part = input(f"\nDo you want to download a {c('specific time interval', 'blue')} (y/n) ? : ")
 
 video_len = YouTube(url).length
 
 print(f"Video length is {seconds_to_time(video_len)}")
 
-if download_specific_part.upper() in ["YES", "Y"]:
+if download_specific_part.strip().upper() in ["YES", "Y"]:
     print("\nThe format has to be (00:00:00) or (00:00). Ex: 3:12:11 or 8:07 or 21:32")
 
     start_time = input("\nEnter a start time: ").strip()
@@ -81,10 +83,10 @@ if download_specific_part.upper() in ["YES", "Y"]:
 
     new_name = ""
 
-    rename = input("Do you want to rename the file? : ")
+    rename = input(f"Do you want to rename the file? {c('(y/n)', 'red')} : ")
 
     if rename.upper() in ["YES", "Y"]:
-        name = input("\nName of file (no extension): ")
+        name = input("\nNew name of file (without extension): ")
         new_name = f'-o "{name}.%(ext)s"'
 
     download_with_time = input("\nReady to download? : ")
@@ -102,7 +104,7 @@ if download_specific_part.upper() in ["YES", "Y"]:
             os.chdir("..")
             os.system("open a_songs_folder")
         
-        open_converter = input("\nOpen website to convert to mp4? : ")
+        open_converter = input(f"\nOpen website to convert to {c('mp4', 'blue')}? : ")
         
         if open_converter.strip().upper() in ["YES", "Y"]:
             webbrowser.open("https://cloudconvert.com/mp4-converter")
@@ -114,10 +116,10 @@ if download_specific_part.upper() in ["YES", "Y"]:
 
 new_name = ""
 
-rename = input("Do you want to rename the file? : ")
+rename = input(f"\nDo you want to rename the file? {c('(y/n)', 'red')} : ")
 
 if rename.strip().upper() in ["YES", "Y"]:
-    name = input("\nName of file (no extension): ")
+    name = input("\nNew name of file (without extension): ")
     new_name = f'-o "{name.strip()}.%(ext)s"'
 
 download_ready = input("\nReady to download? : ")
@@ -135,7 +137,7 @@ if download_ready.strip().upper() in ["YES", "Y"]:
         os.chdir("..")
         os.system("open a_songs_folder")
 
-    open_converter = input("\nOpen website to convert to mp4? : ")
+    open_converter = input(f"\nOpen website to convert to {c('mp4', 'blue')}? : ")
     
     if open_converter.strip().upper() in ["YES", "Y"]:
         webbrowser.open("https://cloudconvert.com/mp4-converter")
