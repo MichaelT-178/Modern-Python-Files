@@ -1,11 +1,12 @@
 """
-Gets the title, link, and length for every video in a 
-YouTube playlist
+Downloads every video in a Youtube playlist. 
+Simply copy and paste the playlist link on line 11
+and run the program.
 """
 
 import json
 from pytube import Playlist, YouTube
-from termcolor import colored
+from termcolor import colored as c
 import os; os.system('clear')
 
 playlist_url = 'https://youtube.com/playlist?list=PL-TO19HLnaQM-VxPfkQg1jZQSh2RBT9qr&si=ks-mLPfxXhGA8Cz4'
@@ -16,7 +17,7 @@ class Video:
         self.link = link 
         self.length = length
 
-print(colored("This will take a second. Be patient.", 'magenta'))
+print(c("This will take a second. Be patient.", 'magenta'))
 
 playlist = Playlist(playlist_url)
 
@@ -33,7 +34,7 @@ for video in playlist.video_urls:
 all_videos = []
 
 if len(video_titles) != len(video_links) != len(video_lengths):
-    print(colored("Different number of links, titles, and lengths", 'red'))
+    print(c("Different number of links, titles, and lengths", 'red'))
     exit(0)
 
 for i in range(len(video_titles)):
@@ -52,7 +53,7 @@ video_list = []
 for video in all_videos:
 
     if has_non_ascii(video.title):
-        print(f"\nASCII CHAR: {colored(video.title, 'red')}\n")
+        print(f"\nASCII CHAR: {c(video.title, 'red')}\n")
 
     video_object = {
         "Title": video.title,
@@ -73,9 +74,11 @@ final_dict = {
 write_to_file = input("Do you want to write to json file? : ")
 
 if write_to_file.strip().upper() in ["YES", 'Y']:
+    
     with open('videos.json', 'w') as json_file: 
         json.dump(final_dict, json_file, indent=4)
-    print(colored("Successfully written to file", 'green'))
+
+    print(c("Successfully written to file", 'green'))
     print()
 else: 
     exit()
@@ -112,7 +115,7 @@ if download_playlist.strip().upper() in ["YES", 'Y']:
     os.chdir("..")
    
     os.mkdir(f"{new_directory}")
-    print(colored(f"The directory \"{new_directory}\" was successfully created!"))
+    print(c(f"The directory \"{new_directory}\" was successfully created!"))
    
     os.chdir("Modern-Python-Files")
 
@@ -130,17 +133,17 @@ if download_playlist.strip().upper() in ["YES", 'Y']:
         for video in data["Videos"]:
             
             if seconds(video.Start_Time) > video.Length or seconds(video.Start_Time) < 0:
-                print(f"\n{colored('Invalid Start_Time attribute', 'red')}\n")
+                print(f"\n{c('Invalid Start_Time attribute', 'red')}\n")
 
             if seconds(video.End_Time) > video.Length or seconds(video.End_Time) < 0:
-                print(f"\n{colored('Invalid End_Time attribute', 'red')}\n")
+                print(f"\n{c('Invalid End_Time attribute', 'red')}\n")
 
             download_length = seconds_to_time(seconds(video.End_Time) - seconds(video.Start_Time))
             
             if video.Start_Time != "" and video.End_Time != "":
                 print(f"\nLength of download will be -> {download_length}")
                 os.system(f'yt-dlp {video.Title} "{video.Link}" --download-sections "*{video.Start_Time}-{video.End_Time}"')
-                print(colored("VIDEO SUCCESSFULLY DOWNLOADED\n", 'green'))
+                print(c("VIDEO SUCCESSFULLY DOWNLOADED\n", 'green'))
 
     open_folder = input("\nOpen folder? : ")
 
@@ -148,4 +151,4 @@ if download_playlist.strip().upper() in ["YES", 'Y']:
         os.chdir("..")
         os.system(f"open {new_directory}")
 
-        print(colored("Done", 'green'))
+        print(c("Done", 'green'))

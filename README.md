@@ -8,3 +8,6 @@ These are more modern python files I've created.
 - og_main_algorithm.py is the original main algorithm I used for the Livestream Directory. I've since rewritten the algorithm in Java
 to make it faster and more organized.
 - Get_YT_Playlist.py is a way to download an entire youtube playlist in one go.
+- read_excel.py Is a simple template to read data from an excel worksheet
+- read_file.py Is just a file I use to read text files 
+- read.txt and example.xlsx are sample text and excel files.
