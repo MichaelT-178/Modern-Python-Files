@@ -6,26 +6,18 @@ video time intervals, and download the youtube link.
 Made on 9/18/2023 
 """
 
-import os; os.system('clear')
-
-try:
-    from pytube import YouTube
-except ModuleNotFoundError:
-    os.system("pip3 install pytube")
-    from pytube import YouTube
-
-try:
-    from termcolor import colored as c
-except ModuleNotFoundError:
-    os.system("pip3 install termcolor")
-    from termcolor import colored as c
-
-import webbrowser #Just converting to mp4 on website is way faster than doing it in the program.
+import os
+import subprocess; os.system('clear')
+from pytube import YouTube
+from termcolor import colored as c
+import inquirer #pip3 install inquirer
 
 CURRENT_DOWNLOAD_PATH = "../a_songs_folder/"
 
 if os.path.exists(CURRENT_DOWNLOAD_PATH):
+    os.system(f"open -a Finder '{CURRENT_DOWNLOAD_PATH}'")
     print(f"{c('CURRENT DOWNLOAD PATH', 'magenta')}: {os.path.abspath(CURRENT_DOWNLOAD_PATH)}/")
+    print("Finder has been opened to current download path. See updates in real time.")
 else:
     print(c(f"\nPath does not exist: \"{CURRENT_DOWNLOAD_PATH}\"", 'red'))
     print("Go and fix path\n")
@@ -51,18 +43,31 @@ def seconds_to_time(seconds) -> str:
         seconds %= 60
         return f"{hours}:{minutes:02}:{seconds:02}"
 
+def get_choice(the_message):
+    green_yes = c("Yes", 'green')
+    red_no = c('No', 'red')
+
+    print()
+    questions = [
+        inquirer.List('choice',
+                      message=the_message,
+                      choices=[green_yes, red_no]
+                      ),
+    ]
+
+    answers = inquirer.prompt(questions)
+    return answers
+
 url = input(f"\nEnter {c('youtube link', 'red')} : ")
-
-download_specific_part = input(f"\nDo you want to download a {c('specific time interval', 'blue')} (y/n) ? : ")
-
-while download_specific_part.strip().upper() not in ["YES", "Y", "NO", "N"]:
-    download_specific_part = input(f"\nDo you want to download a {c('specific time interval', 'blue')} (y/n) ? : ")
 
 video_len = YouTube(url).length
 
-print(f"Video length is {seconds_to_time(video_len)}")
+print(f"Video length is {c(seconds_to_time(video_len), 'cyan')}")
 
-if download_specific_part.strip().upper() in ["YES", "Y"]:
+message = f"Do you want to download a {c('specific time interval', 'blue')} (y/n) ? "
+is_time_interval = get_choice(message)
+
+if "Yes" in is_time_interval['choice'] : #'\x1b[32mYes\x1b[0m' the color made the string weird  
     print("\nThe format has to be (00:00:00) or (00:00). Ex: 3:12:11 or 8:07 or 21:32")
 
     start_time = input("\nEnter a start time: ").strip()
@@ -79,35 +84,41 @@ if download_specific_part.strip().upper() in ["YES", "Y"]:
 
     download_length = seconds_to_time(time_to_seconds(end_time) - time_to_seconds(start_time))
 
-    print(f"Length of download will be -> {download_length}")
+    print(f"\nLength of download will be -> {c(download_length, 'blue')}\n")
 
     new_name = ""
 
-    rename = input(f"Do you want to rename the file? {c('(y/n)', 'red')} : ")
+    rename_message = f"Do you want to rename the file? {c('(y/n)', 'red')} "
+    do_rename = get_choice(rename_message)
 
-    if rename.upper() in ["YES", "Y"]:
+    if "Yes" in do_rename['choice']: 
         name = input("\nNew name of file (without extension): ")
         new_name = f'-o "{name}.%(ext)s"'
+        print(f"File's new name is {c(name, 'blue')}{c('.webm', 'blue')}")
 
-    download_with_time = input("\nReady to download? : ")
+    print()
+    download_with_time = get_choice("Ready to download? ")
 
-    if download_with_time.upper() in ["YES", "Y"]:
+    if "Yes" in download_with_time['choice']: 
+
         os.chdir(CURRENT_DOWNLOAD_PATH)
 
         print()
         os.system(f'yt-dlp {new_name.strip()} "{url.strip()}" --download-sections "*{start_time}-{end_time}"')
         print(c("VIDEO SUCCESSFULLY DOWNLOADED", 'green'))
-
-        open_folder = input("\nOpen folder? : ")
-
-        if open_folder.strip().upper() in ["YES", "Y"]:
-            os.chdir("..")
-            os.system("open a_songs_folder")
         
-        open_converter = input(f"\nOpen website to convert to {c('mp4', 'blue')}? : ")
-        
-        if open_converter.strip().upper() in ["YES", "Y"]:
-            webbrowser.open("https://cloudconvert.com/mp4-converter")
+        get_file_name = subprocess.check_output("ls -t | head -n 1", shell=True)
+        name_of_file = get_file_name.decode('utf-8').strip()
+        name_of_file_wo_extension = name_of_file.rsplit('.', 1)[0]
+
+        print()
+        convert_video_message = f"Do you want to convert the video to {c('mp4', 'blue')}? "
+        convert_video = get_choice(convert_video_message)
+
+        if "Yes" in convert_video['choice']: 
+            os.system(f"ffmpeg -i \"{name_of_file_wo_extension}\".webm \"{name_of_file_wo_extension}\".mp4")
+            os.remove(f"{name_of_file_wo_extension}.webm")
+            print(c("Successfully deleted the webm file and converted to mp4", 'green'))
 
         print(c("Done", 'green'))
 
@@ -116,30 +127,42 @@ if download_specific_part.strip().upper() in ["YES", "Y"]:
 
 new_name = ""
 
-rename = input(f"\nDo you want to rename the file? {c('(y/n)', 'red')} : ")
+print()
+rename_message = f"Do you want to rename the file? {c('(y/n)', 'red')} "
+rename_vid = get_choice(rename_message)
 
-if rename.strip().upper() in ["YES", "Y"]:
+if "Yes" in rename_vid['choice']: 
     name = input("\nNew name of file (without extension): ")
     new_name = f'-o "{name.strip()}.%(ext)s"'
+    print(f"File's new name is {c(name, 'blue')}{c('.webm', 'blue')}")
 
-download_ready = input("\nReady to download? : ")
+print()
+download_vid = get_choice("Ready to download? ")
 
-if download_ready.strip().upper() in ["YES", "Y"]:
+if "Yes" in download_vid['choice']: 
     os.chdir(CURRENT_DOWNLOAD_PATH)
 
     print()
-    os.system(f'yt-dlp {new_name} "{url.strip()}"')
+
+    #--no-mtime sets the date created to now 
+    os.system(f'yt-dlp --no-mtime {new_name} "{url.strip()}"')
 
     print(c("VIDEO SUCCESSFULLY DOWNLOADED", 'green'))
-    open_folder = input("\nOpen folder? : ")
     
-    if open_folder.strip().upper() in ["YES", "Y"]:
-        os.chdir("..")
-        os.system("open a_songs_folder")
+    # Run the shell command and capture its output
+    get_file_name = subprocess.check_output("ls -t | head -n 1", shell=True)
 
-    open_converter = input(f"\nOpen website to convert to {c('mp4', 'blue')}? : ")
+    # Convert the byte string to a regular string
+    name_of_file = get_file_name.decode('utf-8').strip()
+    name_of_file_wo_extension = name_of_file.rsplit('.', 1)[0]
     
-    if open_converter.strip().upper() in ["YES", "Y"]:
-        webbrowser.open("https://cloudconvert.com/mp4-converter")
+    print()
+    convert_vid_message = f"Do you want to convert the video to {c('mp4', 'blue')}? "
+    convert_vid = get_choice(convert_vid_message)
+
+    if "Yes" in convert_vid['choice']: 
+        os.system(f"ffmpeg -i \"{name_of_file_wo_extension}\".webm \"{name_of_file_wo_extension}\".mp4")
+        os.remove(f"{name_of_file_wo_extension}.webm")
+        print(c("Successfully deleted the webm file and converted to mp4", 'green'))
         
     print(c("Done", 'green'))

@@ -61,16 +61,20 @@ os.system("pip uninstall yt-dlp")
 os.system("pip uninstall yt-dlp")
 
 print("\n\n\n\n")
+
+printColorfulMessage("Making updates to brew package", 35)
+
+os.system('brew upgrade librist')
+os.system('brew upgrade mbedtls')
+
+print("\n\n\n\n")
+
 printColorfulMessage("Congratulations! yt-dlp should now be installed", 32)
 
 open_repo = input("\nDo you want to open the command-line interface program repo I made for yt-dlp (y/n) ? : ")
 
 if open_repo.strip().upper() in ["YES", "Y"]:
     webbrowser.open("https://github.com/MichaelT-178/Ancient-Python-Files/blob/main/newer_old_files/YT_downloader_helper.py")
-
-
-
-
 
 
 

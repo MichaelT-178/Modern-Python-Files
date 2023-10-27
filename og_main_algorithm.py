@@ -372,6 +372,8 @@ for song in songs:
             other += "Vincent (Starry, Starry Night), " if ("Vincent" == title) else ""
             other += "Happy Christmas, " if ("Xmas" in title) else ""
             other += "Merry Christmas, " if ("Xmas" in title) else ""
+            other += "Jeux Interdits, " if ("Spanish Romance" in title) else ""
+
             other += "Simon and Garfunkel, " if ("Simon & Gar" in artist) else ""
             
             if ("Bublé" in artist): other += "Bubble, "

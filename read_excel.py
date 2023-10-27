@@ -2,7 +2,7 @@ import pandas as pd
 import openpyxl
 
 """
-This is a rough template to 
+This is a rough template to read an excel sheet
 
 """
 
