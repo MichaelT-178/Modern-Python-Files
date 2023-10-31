@@ -41,7 +41,7 @@ def write_to_clipboard(output: str):
 
 
 
-print(c("The website will be fetched using the app link and copied to clipboard.", 'blue'))
+print(c("The website will be fetched using the app link and copied to the clipboard.", 'blue'))
 print(c("Later when prompted to \"Enter the URL\" paste the website link.", 'cyan'))
 
 link = input("\nEnter TikTok app link: ")
@@ -76,5 +76,7 @@ os.system(f"mv {name_of_file} \"{new_name}\".mp4")
 os.chdir("../..")
 os.system(f"mv ./tiktok-downloader/downloads/\"{new_name}\".mp4 ./tiktoks/")
 
+# Open finder to ensure it was downloaded correctly.
+os.system(f"open -a Finder ./tiktoks/")
 
 

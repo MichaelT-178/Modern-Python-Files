@@ -6,8 +6,8 @@ video time intervals, and download the youtube link.
 Made on 9/18/2023 
 """
 
-import os
-import subprocess; os.system('clear')
+import os; os.system('clear')
+import subprocess
 from pytube import YouTube
 from termcolor import colored as c
 import inquirer #pip3 install inquirer
