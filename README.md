@@ -2,7 +2,7 @@
 These are more modern python files I've created.
 
 ### What these files do
-- ClipMp4.py clips a mp4 clip using ffmpeg and python. 
+- Clip_mp4.py clips a mp4 clip using ffmpeg and python. 
 
 - example.xlsx is a sample Excel sheet that's used in the read_excel.py program.
 
