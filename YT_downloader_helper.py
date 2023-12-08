@@ -12,9 +12,9 @@ from pytube import YouTube
 from termcolor import colored as c
 import inquirer #pip3 install inquirer
 
-# save_dir = "a_songs_folder"
-#save_dir = "Youtube_videos"
-save_dir = "Other_Youtube"
+save_dir = "a_songs_folder"
+# save_dir = "Youtube_videos"
+#save_dir = "Other_Youtube"
 
 CURRENT_DOWNLOAD_PATH = f"../{save_dir}/"
 

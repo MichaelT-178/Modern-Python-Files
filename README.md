@@ -20,7 +20,7 @@ These are more modern python files I've created.
 
 - read.txt is the txt file that read_file.py uses.
 
-- TikTok_Downloader.py I made to help make using the [tiktok-downloader](https://github.com/n0l3r/tiktok-downloader) faster and easier. Fetches the website link, pastes it to your clipboard, allows you to rename the TikTok file, and saves it to the correct
+- TikTok_Downloader.py is used to make using the [tiktok-downloader](https://github.com/n0l3r/tiktok-downloader) faster and easier. Fetches the website link, pastes it to your clipboard, allows you to rename the TikTok file, and saves it to the correct
 directory.
 
 - videos.json is an output file from the Get_YT_Playlist.py file. Basically how it works is the python program gets all the links, titles, and lengths of videos from a youtube playlist then writes the info to a JSON file. The user then goes to the json file and can decide to only download certain interval of the video and change the title of the video that will be saved.

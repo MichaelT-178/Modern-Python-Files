@@ -2,12 +2,16 @@
 This file just reads a text file.
 """
 
-import re
-
-pattern = r'"([^"]*)"'
+lines = []
 
 with open("read.txt", "r") as file:
     for line in file:
-        matches = re.findall(pattern, line)
-        for match in matches:
-            print(match)
+        if "•" in line:
+
+            if line.strip() not in lines:
+                lines.append(line.strip())
+
+
+
+for l in lines:
+    print(l)

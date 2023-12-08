@@ -23,11 +23,12 @@ def get_website_link(app_link: str) -> str:
     response = requests.get(app_link)
 
     if response.status_code == 200:
-        # Use regex to find link in HTML response.
-        website_link = re.search(r'https://www\.tiktok\.com/[^"\']*"', response.text)
+        # Use regex to find link in giant HTML response.
+        website_link_info = re.search(r'"canonical":"https:.+","pageId"', response.text)
 
-        if website_link:
-            return website_link.group(0)
+        if website_link_info:
+            website_link = str(website_link_info.group(0))
+            return website_link.replace('"canonical":"', '').replace('","pageId', '').replace(r'\u002F', '/')
         else:
             print(c("Website link not found in the HTML.", 'red'))
             return None
@@ -38,8 +39,6 @@ def get_website_link(app_link: str) -> str:
 def write_to_clipboard(output: str):
     process = subprocess.Popen('pbcopy', env={'LANG': 'en_US.UTF-8'}, stdin=subprocess.PIPE)
     process.communicate(output.encode('utf-8'))
-
-
 
 print(c("The website will be fetched using the app link and copied to the clipboard.", 'blue'))
 print(c("Later when prompted to \"Enter the URL\" paste the website link.", 'cyan'))

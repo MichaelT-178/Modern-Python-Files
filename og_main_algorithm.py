@@ -305,7 +305,9 @@ for song in songs:
 
                     if ("Forget Her" in line): instruments += "Electric Guitar, " 
                     instruments += " Blues Slide, " if ("Blues Slide" in title or "Blues Slide" in appearances) else ""
- 
+                    instruments += " Blues Slide, " if ("Bad To The Bone" in title) else ""
+                    instruments += " Blues Slide, " if ("Slide Thing" in title) else ""
+
         if (appearances.strip() != ""):
             song_info += "\n		{"
             title = title.replace("(I)", "").replace("(H)", "").strip() #For Incubus wish you were Here and Harmonica only
@@ -388,7 +390,10 @@ for song in songs:
             if (title == "Trouble So Hard"): other += "Natural Blues by Moby, "
             if (title == "Natural Blues"): other += "Trouble So Hard by Vera Hall, "
             if (title == "Satisfied Mind"): other += "A Satisfied Mind, "
-            
+            if ("'" in title): other += f'{title.replace("'", "‘")}, '
+            if ("'" in artist): other += f'{artist.replace("'", "‘")}, '
+
+
             other += artist.strip().replace(".", "").replace("'", "").replace("’", "").replace("‘", "'") + ", " if ("." in artist or "'" in artist or "’" in artist) else ""
             other += artist.replace('É', 'E').replace('í', 'i').replace('é','e').replace('á','a').replace("ü", "u") + ", " if ('É' in artist or 'í' in artist or 'é' in artist or 'á' in artist or "ü" in artist) else ""
 
@@ -431,7 +436,7 @@ for song in songs:
                 
             os.chdir('../db_manager/main_algorithm')
 
-            song_info += "\n			\"Image\": \"" + image[1:] + "\","
+            song_info += "\n			\"Image\": \"" + image[8:] + "\","
             song_info += "\n			\"Links\": \"" + links[:-3] + "\"" 
             song_info += "\n		},"
 
