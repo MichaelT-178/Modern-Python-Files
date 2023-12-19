@@ -27,16 +27,3 @@ These are more modern python files I've created.
 - send_email.py Used to send an email using python.
 
 - videos.json is an output file from the Get_YT_Playlist.py file. Basically how it works is the python program gets all the links, titles, and lengths of videos from a youtube playlist then writes the info to a JSON file. The user then goes to the json file and can decide to only download certain interval of the video and change the title of the video that will be saved.
-
-
-
-
-
-
-- Get_YT_Playlist.py is a way to download an entire youtube playlist in one go.
-
-
-- read_file.py Is just a file I use to read text files 
-
-- read.txt and example.xlsx are sample text and excel files.
-
