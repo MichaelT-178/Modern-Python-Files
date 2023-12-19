@@ -17,6 +17,8 @@ with open('credentials.json') as json_file:
 
 # Your email credentials
 credentials = data["send_email"]
+
+# Sender email
 sender_email = credentials['email']
 
 # Have to use a google "App Password"
@@ -24,7 +26,7 @@ sender_email = credentials['email']
 sender_app_password = credentials['password']
 
 # Recipient email address
-recipient_email = "michael.totaro@icloud.com"
+recipient_email = credentials['recipient_email']
 
 # Create the email 
 message = MIMEMultipart()
@@ -38,7 +40,7 @@ body = "This is a test email with an attachment sent from Python."
 message.attach(MIMEText(body, "plain"))
 
 # Get all files from directory 
-_path = Path("../neil_songs/")
+_path = Path(credentials["file_path"])
 attachments = get_file_names(_path)
 
 for attachment in attachments:
