@@ -28,7 +28,7 @@ def get_website_link(app_link: str) -> str:
 
         if website_link_info:
             website_link = str(website_link_info.group(0))
-            return website_link.replace('"canonical":"', '').replace('","pageId', '').replace(r'\u002F', '/')
+            return website_link.replace('"canonical":"', '').replace('","pageId', '').replace(r'\u002F', '/').strip()
         else:
             print(c("Website link not found in the HTML.", 'red'))
             return None
