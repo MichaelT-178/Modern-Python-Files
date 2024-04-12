@@ -40,6 +40,7 @@ def write_to_clipboard(output: str):
     process = subprocess.Popen('pbcopy', env={'LANG': 'en_US.UTF-8'}, stdin=subprocess.PIPE)
     process.communicate(output.encode('utf-8'))
 
+print(c("Remember that you can NOT download slideshows", 'red'))
 print(c("The website link will be fetched using the app link and copied to the clipboard.", 'blue'))
 print(c("Later when prompted to \"Paste the URL\" paste the website link.", 'cyan'))
 
