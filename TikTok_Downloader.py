@@ -57,7 +57,7 @@ if link.strip():
 
 os.chdir("../tiktok-downloader")
 os.system('npm i')
-os.system('node index')
+os.system('node cli/index')
 
 #Get most recently downloaded video name
 os.chdir("../tiktok-downloader/downloads")
