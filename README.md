@@ -2,7 +2,7 @@
 These are more modern python files I've created.
 
 ### What these files do
-- analyze_excel Reads in values from Excel spreadsheet.
+- analyze_excel.py Reads in values from Excel spreadsheet.
 
 - Clip_mp4.py clips a mp4 clip using ffmpeg and python. 
 
