@@ -33,7 +33,7 @@ col_b = []
 pattern = r'=HYPERLINK\("([^"]+)"'
 
 # min_col=2, max_col=2 and the column you want to iterate over. Starts at 1.
-for row in ws.iter_rows(min_row=5, min_col=2, max_col=2, values_only=True):
+for row in ws.iter_rows(min_row=6, min_col=2, max_col=2, values_only=True):
     formula = row[0]
     match = re.search(pattern, formula)
 
