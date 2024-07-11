@@ -20,8 +20,8 @@ import requests
 def get_website_link(app_link: str) -> str:
 	try:
 		response = requests.get(app_link, allow_redirects=True)
-		final_url = response.url
-		return final_url
+		website_link = response.url
+		return website_link
 	except requests.RequestException as e:
 		print(f"An error occurred: {e}")
 		return None
