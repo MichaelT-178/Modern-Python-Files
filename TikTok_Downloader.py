@@ -32,7 +32,6 @@ def write_to_clipboard(output: str):
 
 print(c("Remember that you can NOT download slideshows", 'red'))
 print(c("The website link will be fetched using the app link and copied to the clipboard.", 'blue'))
-print(c("Later when prompted to \"Paste the URL\" paste the website link.", 'cyan'))
 
 link = input("\nEnter TikTok app link: ")
 
@@ -54,7 +53,7 @@ get_file_name = subprocess.check_output("ls -t | head -n 1", shell=True)
 name_of_file = get_file_name.decode('utf-8').strip()
 
 # Name is currently just a giant string of integers. Ex: 7215600292283403566.mp4
-new_name = input("\nRename the file (w/o extension): ")
+new_name = input("\nName the file (w/o extension): ")
 
 new_name = new_name if new_name.strip() else name_of_file[:-4] #get rid of .mp4 extension
 
