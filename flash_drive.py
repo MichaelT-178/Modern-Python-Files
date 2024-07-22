@@ -1,3 +1,4 @@
+import json
 import os
 import shutil
 import subprocess
@@ -132,7 +133,7 @@ class FlashDrive:
                     print(f'The file/folder: "{file_path}" will {c("NOT", "red")} be deleted. Please enter a new path.')
 
             else:
-                print(c(f'Can\'t delete the file/folder: "{file_path}". Does not exist on flash drive.', 'red'))
+                print(c(f"Can't delete the file/folder: \"{file_path}\". Does not exist on flash drive.", 'red'))
 
 
     def unmount_drive(self) -> None:
@@ -295,6 +296,16 @@ def choose_option(flash_drive, choice: int):
         case _:
             print(c("Invalid number", "red"))
 
+def get_flash_drive():
+
+    with open("data.json", "r") as file:
+        content = json.load(file)
+        
+    name = content['Name']
+    identifier = content["Identifier"]
+
+    return FlashDrive(name, identifier)
+
 def prompt_user(flash_drive):
     while True:
         user_input = input("Choose an option 1-8 (or 'q' to quit): ")
@@ -316,7 +327,7 @@ def prompt_user(flash_drive):
 
 def main():
 
-    flash_drive = FlashDrive("USBMST1", "disk8s1")
+    flash_drive = get_flash_drive()
 
     print_menu()
     prompt_user(flash_drive)
