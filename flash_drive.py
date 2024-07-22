@@ -263,7 +263,6 @@ class FlashDrive:
             print_menu()
             return
 
-
 def print_menu():
     print("Flash Drive Options")
     print("1. Open flash drive contents in Finder ")
@@ -274,6 +273,7 @@ def print_menu():
     print("6. Eject flash drive from your computer ")
     print("7. Displays all the files from your flash drive")
     print("8. Explains unmounting vs ejecting a Flash Drive\n")
+
 
 def choose_option(flash_drive, choice: int):
     match choice:
@@ -296,6 +296,7 @@ def choose_option(flash_drive, choice: int):
         case _:
             print(c("Invalid number", "red"))
 
+
 def get_flash_drive():
 
     with open("data.json", "r") as file:
@@ -305,6 +306,7 @@ def get_flash_drive():
     identifier = content["Identifier"]
 
     return FlashDrive(name, identifier)
+
 
 def prompt_user(flash_drive):
     while True:
@@ -331,6 +333,5 @@ def main():
 
     print_menu()
     prompt_user(flash_drive)
-
 
 main()
