@@ -36,7 +36,7 @@ print(c("The website link will be fetched using the app link and copied to the c
 link = input("\nEnter TikTok app link: ")
 
 if link.strip():
-	website_link = get_website_link(link)[:-1] #remove last " char
+	website_link = get_website_link(link)
 
 	write_to_clipboard(website_link)
 	print(c("Website link copied to clipboard", 'green'), end="")
