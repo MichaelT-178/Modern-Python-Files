@@ -6,6 +6,7 @@ video and rename the mp4 file you're downloading.
 """
 
 import os; os.system('clear')
+import re
 import subprocess
 from pytube import YouTube
 from termcolor import colored as c
@@ -114,8 +115,8 @@ if "Yes" in is_time_interval['choice']:
 		get_file_name = subprocess.check_output("ls -t | head -n 1", shell=True)
 		name_of_file = get_file_name.decode('utf-8').strip()
 
-		if ".mp4" in name_of_file:
-			os.system(f"mv {name_of_file} {name_of_file.replace('mp4', 'webm')}")
+		if ".webm" not in name_of_file:
+			os.system(f"mv {name_of_file} {re.sub(r'\.[^.]+$', '.webm', name_of_file)}")
 
 		name_of_file_wo_extension = name_of_file.rsplit('.', 1)[0]
 
@@ -163,9 +164,9 @@ if "Yes" in download_vid['choice']:
 	# Convert the byte string to a regular string
 	name_of_file = get_file_name.decode('utf-8').strip()
 
-	if ".mp4" in name_of_file:
-		os.system(f"mv {name_of_file} {name_of_file.replace('mp4', 'webm')}")
-
+	if ".webm" not in name_of_file:
+		os.system(f"mv {name_of_file} {re.sub(r'\.[^.]+$', '.webm', name_of_file)}")
+		
 	name_of_file_wo_extension = name_of_file.rsplit('.', 1)[0]
 
 	print()
