@@ -15,6 +15,7 @@ import os
 import subprocess
 from termcolor import colored as c
 import requests
+# beautifulsoup
 #This command worked to install bs4 -> sudo python3 -m pip install bs4
 
 def get_website_link(app_link: str) -> str:
