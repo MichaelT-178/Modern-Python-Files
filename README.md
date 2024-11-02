@@ -2,36 +2,38 @@
 These are more modern python files I've created.
 
 ### What these files do
-- analyze_excel.py Reads in values from Excel spreadsheet.
+- <u>analyze_excel.py</u>: Reads the values from an Excel spreadsheet.
 
-- Clip_mp4.py clips a mp4 clip using ffmpeg and python. 
+- <u>Clip_mp4.py</u>: Clips a section of an mp4 clip.
 
-- download_yt_songs.py downloads a playlist of youtube videos as mp3 files
+- <u>delete_sims.py</u>: Tool to help delete unused XCode simulators that are taking up space.
 
-- example.xlsx is a sample Excel sheet that's used in the read_excel.py program.
+- <u>download_yt_songs.py</u>: Downloads videos from a YouTube playlist as mp3 files.
 
-- flash_drive.py is a Flash Drive Controller program to peform various tasks using a flash drive.
+- <u>example.xlsx</u>: A sample Excel spreadsheet that's used in the read_excel.py program.
 
-- Get_YT_Playlist downloads every video from from a youtube playlist.
+- <u>flash_drive_controller.py</u>: A program to help you easily perform various tasks with a flash drive.
 
-- install_yt-dlp is to help with the [youtube downloader](https://github.com/ytdl-org/youtube-dl) installation process. 
+- <u>Get_YT_Playlist</u>: A program that downloads every video from from a youtube playlist.
 
-- NameStatsUPDATED is a more cleanly written version of the original [NameStats](https://github.com/MichaelT-178/Ancient-Python-Files/blob/main/NameStats.py) program in the Ancient-Python-Files repository.
+- <u>install_yt-dlp</u>: A program to help with the [youtube downloader](https://github.com/ytdl-org/youtube-dl) installation process. 
 
-- og_main_algorithm.py is the original main algorithm I previously used for the Livestream Directory. I've since rewritten the algorithm in Java to make it faster and more organized.
+- <u>NameStatsUPDATED</u>: A more cleanly written version of the original [NameStats](https://github.com/MichaelT-178/Ancient-Python-Files/blob/main/NameStats.py) program that I made my when I started coding. The original can be found in the Ancient-Python-Files repository.
 
-- read_excel.py is a simple template to read data from an excel worksheet
+- <u>og_main_algorithm.py</u>: This is the original main algorithm I used for the Livestream Directory. After Corey stopped live streaming I rewrote it in C# to add new features, make it more organized, try out a new language, etc.
 
-- read_file.py is a simple program for whenever I need to read a txt file.
+- <u>read_excel.py</u>: Read's the data of an excel spreadsheet.
 
-- read.txt is the txt file that read_file.py uses.
+- <u>read_file.py</u>: Super simple file for whenever I need to read a txt file.
 
-- rescale_image.py rescales and saves an image. 
+- <u>read.txt</u>: is the txt file that read_file.py uses.
 
-- send_email.py Used to send an email using python.
+- <u>rescale_image.py</u>: Rescales and saves an image. 
 
-- TikTok_Downloader.py is used to make using the [tiktok-downloader](https://github.com/n0l3r/tiktok-downloader) faster and easier. Fetches the website link, pastes it to your clipboard, allows you to rename the TikTok file, and saves it to the correct directory.
+- <u>send_email.py</u>: Used to send an email using python.
 
-- videos.json is an output file from the Get_YT_Playlist.py file. Basically how it works is the python program gets all the links, titles, and lengths of videos from a youtube playlist then writes the info to a JSON file. The user then goes to the json file and can decide to only download certain interval of the video and change the title of the video that will be saved.
+- <u>TikTok_Downloader.py</u>: A [tiktok-downloader](https://github.com/n0l3r/tiktok-downloader) wrapper that I created to help make downloading TikTok videos easier, faster, and less complicated. Fetches the website link, pastes it to your clipboard, allows you to rename the TikTok file, and then saves it to the correct directory.
 
-- YT_downloader_helper is a command-line interface tool that I built to simplify the process of downloading YouTube videos and extracting certain parts from them.
+- <u>videos.json</u>: This is just an output file from the Get_YT_Playlist.py file. Basically how it works is the python program gets all the links, titles, and lengths of the videos from a youtube playlist, then writes the info to a JSON file. The user then goes to the json file and can decide to only download certain intervals of the videos and can change the titles of the videos that will be saved.
+
+- <u>YT_downloader_helper</u> A CLI wrapper tool that I built to simplify the process of downloading YouTube videos and clipping them.
