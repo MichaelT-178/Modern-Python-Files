@@ -20,7 +20,7 @@ These are more modern python files I've created.
 
 - <b>NameStatsUPDATED</b>: A more cleanly written version of the original [NameStats](https://github.com/MichaelT-178/Ancient-Python-Files/blob/main/NameStats.py) program that I made my when I started coding. The original can be found in the Ancient-Python-Files repository.
 
-- <b>og_main_algorithm.py</b>: This is the original main algorithm I used for the Livestream Directory. After Corey stopped live streaming I rewrote it in C# to add new features, make it more organized, try out a new language, etc.
+- <b>og_main_algorithm.py</b>: The original main algorithm I used for the [Livestream Directory](https://github.com/MichaelT-178/LivestreamDirectory). After Corey stopped live streaming I rewrote it in C# to add new features, make it more organized, try out a new language, etc. I created this algorithm in Summer 2022 and used it up until about Fall 2023.
 
 - <b>read_excel.py</b>: Read's the data of an excel spreadsheet.
 
@@ -30,10 +30,10 @@ These are more modern python files I've created.
 
 - <b>rescale_image.py</b>: Rescales and saves an image. 
 
-- <b>send_email.py</b>: Used to send an email using python.
+- <b>send_email.py</b>: Sends an email using python
 
-- <b>TikTok_Downloader.py</b>: A [tiktok-downloader](https://github.com/n0l3r/tiktok-downloader) wrapper that I created to help make downloading TikTok videos easier, faster, and less complicated. Fetches the website link, pastes it to your clipboard, allows you to rename the TikTok file, and then saves it to the correct directory.
+- <b>TikTok_Downloader.py</b>: A [tiktok-downloader](https://github.com/n0l3r/tiktok-downloader) wrapper that help makes downloading TikTok videos faster, easier, and less complicated. Fetches the website link, pastes it to your clipboard, allows you to rename the mp4 file, and then saves it to the correct directory.
 
-- <b>videos.json</b>: This is just an output file from the Get_YT_Playlist.py file. Basically how it works is the python program gets all the links, titles, and lengths of the videos from a youtube playlist, then writes the info to a JSON file. The user then goes to the json file and can decide to only download certain intervals of the videos and can change the titles of the videos that will be saved.
+- <b>videos.json</b>: An output file created by the Get_YT_Playlist.py file. It works by the python program getting all the links, titles, and lengths of the videos from a youtube playlist, then writing the info to this JSON file. The user then opens this json file and decides what intervals of the videos they want to download and they can change the title of the video that will be downloaded.
 
 - <b>YT_downloader_helper</b> A CLI wrapper tool that I built to simplify the process of downloading YouTube videos and clipping them.
