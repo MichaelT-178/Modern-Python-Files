@@ -16,11 +16,11 @@ These are more modern python files I've created.
 
 - <b>Get_YT_Playlist</b>: A program that downloads every video from from a youtube playlist.
 
-- <b>install_yt-dlp</b>: A program to help with the [youtube downloader](https://github.com/ytdl-org/youtube-dl) installation process. 
+- <b>install_yt-dlp</b>: A program to help with the <a href="https://github.com/ytdl-org/youtube-dl" target="_blank">youtube downloader</a> installation process. 
 
-- <b>NameStatsUPDATED</b>: A more cleanly written version of the original [NameStats](https://github.com/MichaelT-178/Ancient-Python-Files/blob/main/NameStats.py) program that I made my when I started coding. The original can be found in the Ancient-Python-Files repository.
+- <b>NameStatsUPDATED</b>: A more cleanly written version of the original <a href="https://github.com/MichaelT-178/Ancient-Python-Files/blob/main/NameStats.py" target="_blank">NameStats</a> program that I made my when I started coding. The original can be found in the Ancient-Python-Files repository.
 
-- <b>og_main_algorithm.py</b>: The original main algorithm I used for the [Livestream Directory](https://github.com/MichaelT-178/LivestreamDirectory). After Corey stopped live streaming I rewrote it in C# to add new features, make it more organized, try out a new language, etc. I created this algorithm in Summer 2022 and used it up until about Fall 2023.
+- <b>og_main_algorithm.py</b>: The original main algorithm I used for the <a href="https://github.com/MichaelT-178/LivestreamDirectory" target="_blank">Livestream Directory</a>. After Corey stopped live streaming I rewrote it in C# to add new features, make it more organized, try out a new language, etc. I created this algorithm in Summer 2022 and used it up until about Fall 2023.
 
 - <b>read_excel.py</b>: Read's the data of an excel spreadsheet.
 
@@ -32,7 +32,7 @@ These are more modern python files I've created.
 
 - <b>send_email.py</b>: Sends an email using python
 
-- <b>TikTok_Downloader.py</b>: A [tiktok-downloader](https://github.com/n0l3r/tiktok-downloader) wrapper that help makes downloading TikTok videos faster, easier, and less complicated. Fetches the website link, pastes it to your clipboard, allows you to rename the mp4 file, and then saves it to the correct directory.
+- <b>TikTok_Downloader.py</b>: A <a href="https://github.com/n0l3r/tiktok-downloader" target="_blank">tiktok-downloader</a> wrapper that help makes downloading TikTok videos faster, easier, and less complicated. Fetches the website link, pastes it to your clipboard, allows you to rename the mp4 file, and then saves it to the correct directory.
 
 - <b>videos.json</b>: An output file created by the Get_YT_Playlist.py file. It works by the python program getting all the links, titles, and lengths of the videos from a youtube playlist, then writing the info to this JSON file. The user then opens this json file and decides what intervals of the videos they want to download and they can change the title of the video that will be downloaded.
 
