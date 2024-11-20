@@ -4,7 +4,7 @@ These are more modern python files I've created.
 ### What these files do
 - <b>analyze_excel.py</b>: Reads the values from an Excel spreadsheet.
 
-- <b>Clip_mp4.py</b>: Clips a section of an mp4 clip.
+- <b>clip_mp4.py</b>: Clips a section of an mp4 clip.
 
 - <b>delete_sims.py</b>: Tool to help delete unused XCode simulators that are taking up space.
 
