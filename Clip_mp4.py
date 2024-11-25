@@ -79,10 +79,16 @@ while True:
 original_full_path = path_to_original_file + '/' + original_file_name
 
 print(c(f"This is the file path: {original_full_path}", 'green'))
+# Will just remove the end starting from the end time. So like if you say 1:30 it will 
+# delete anything after 1:30 and leave the rest of the video.
+remove_end = input("\nDo you want to just remove the end of the clip? (y/n): ")
 
 # This is the time you want the clipped video to start at
 # You can enter the time in a normal format
-start_time = input("\nEnter a start time (Ex: 0:10): ")
+if remove_end.strip().upper() in ['Y', 'YES']:
+    start_time = "00:00:00"
+else:
+    start_time = input("\nEnter a start time (Ex: 0:10): ")
 
 end_time = input("Enter a end time (Ex: 1:30): ")
 
@@ -97,9 +103,13 @@ new_file_path = path_to_original_file + '/' + new_file_name + '.mp4'
 
 # This is the command
 # This can cause the start of the video to be black -> ffmpeg -i input.mp4 -ss 00:00:10 -t 00:00:20 -c copy output.mp4
-# ffmpeg -i input.mp4 -ss "00:04:14.643" -to "00:04:16.527" -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart output.mp4
+# ffmpeg -i input.mp4 -ss "00:08:16.527" -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart output.mp4
+# ffmpeg -i input.mp4 -ss "00:04:14.643" -to "00:08:16.527" -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart output.mp4
 # Solution -> https://www.reddit.com/r/ffmpeg/comments/i4rtab/comment/g0kmjua/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-os.system(f'ffmpeg -i {original_full_path} -ss {start_time} -to {end_time} -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart {new_file_path}')
+if remove_end.strip().upper() in ['Y', 'YES']: # if just removing the end of the clip.
+    os.system(f'ffmpeg -i {original_full_path} -ss {end_time} -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart {new_file_path}')
+else:
+    os.system(f'ffmpeg -i {original_full_path} -ss {start_time} -to {end_time} -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart {new_file_path}')
 
 print(c('\nFile saved successfully!', 'green'))
 
