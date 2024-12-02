@@ -14,6 +14,8 @@ These are more modern python files I've created.
 
 - <b>flash_drive_controller.py</b>: A program to help you easily perform various tasks with a flash drive.
 
+- <b>generate_qr_code.py</b>: A program to generate a QR Code for a link.
+
 - <b>Get_YT_Playlist</b>: A program that downloads every video from from a youtube playlist.
 
 - <b>install_yt-dlp</b>: A program to help with the [youtube downloader](https://github.com/ytdl-org/youtube-dl) installation process. 
