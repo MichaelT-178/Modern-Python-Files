@@ -2,6 +2,14 @@ import qrcode
 from termcolor import colored as c
 import os
 
+"""
+Run program to be prompted for link.
+
+cd Modern-Python-Files
+python3 generate_qr_code.py
+
+"""
+
 # The folder the output image will be downloaded to
 output_path = f"../qr_codes"
 
