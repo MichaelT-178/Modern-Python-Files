@@ -12,6 +12,8 @@ These are more modern python files I've created.
 
 - <b>example.xlsx</b>: A sample Excel spreadsheet that's used in the read_excel.py program.
 
+- <b>find_color_codes</b>: Find the color codes in a given image.
+
 - <b>flash_drive_controller.py</b>: A program to help you easily perform various tasks with a flash drive.
 
 - <b>generate_qr_code.py</b>: A program to generate a QR Code for a link.
