@@ -32,6 +32,8 @@ These are more modern python files I've created.
 
 - <b>read.txt</b>: is the txt file that read_file.py uses.
 
+- <b>replace_image_color.py</b>: Replace a color in an image with another color.
+
 - <b>rescale_image.py</b>: Rescales and saves an image. 
 
 - <b>send_email.py</b>: Sends an email using python
