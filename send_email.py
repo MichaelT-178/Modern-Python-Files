@@ -12,7 +12,7 @@ def get_file_names(path):
     files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
     return files
 
-with open('credentials.json') as json_file:
+with open('credentials/credentials.json') as json_file:
     data = json.load(json_file)
 
 # Your email credentials

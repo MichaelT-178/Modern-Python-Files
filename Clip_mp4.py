@@ -81,16 +81,16 @@ original_full_path = path_to_original_file + '/' + original_file_name
 print(c(f"This is the file path: {original_full_path}", 'green'))
 # Will just remove the end starting from the end time. So like if you say 1:30 it will 
 # delete anything after 1:30 and leave the rest of the video.
-remove_end = input("\nDo you want to just remove the end of the clip? (y/n): ")
+remove_end = input("\nDo you want to clip the video to it's very end? (y/n): ")
 
 # This is the time you want the clipped video to start at
 # You can enter the time in a normal format
 if remove_end.strip().upper() in ['Y', 'YES']:
     start_time = "00:00:00"
 else:
-    start_time = input("\nEnter a start time (Ex: 0:10): ")
+    start_time = input("\nEnter the start time of the clipped video (Ex: 0:10): ")
 
-end_time = input("Enter a end time (Ex: 1:30): ")
+end_time = input("Enter a end time of the clipped video (Ex: 1:30): ")
 
 new_file_name = input(c("\nName the clipped file (no extension): ", 'magenta'))
 

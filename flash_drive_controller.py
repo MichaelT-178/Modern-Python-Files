@@ -299,7 +299,7 @@ def choose_option(flash_drive, choice: int):
 
 def get_flash_drive():
 
-    with open("data.json", "r") as file:
+    with open("credentials/data.json", "r") as file:
         content = json.load(file)
         
     name = content['Name']

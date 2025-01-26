@@ -42,4 +42,6 @@ These are more modern python files I've created.
 
 - <b>videos.json</b>: An output file created by the Get_YT_Playlist.py file. It works by the python program getting all the links, titles, and lengths of the videos from a youtube playlist, then writing the info to this JSON file. The user then opens this json file and decides what intervals of the videos they want to download and they can change the title of the video that will be downloaded.
 
+- <b>youtube_api_helper.py</b>: Utilizes the YouTube Data API v3 to perform various tasks since pytube is deprecated.
+
 - <b>YT_downloader_helper</b> A CLI wrapper tool that I built to simplify the process of downloading YouTube videos and clipping them.

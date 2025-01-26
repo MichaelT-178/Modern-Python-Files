@@ -8,7 +8,7 @@ video and rename the mp4 file you're downloading.
 import os; os.system('clear')
 import re
 import subprocess
-from pytube import YouTube
+from youtube_api_helper import CustomYouTubeAPI
 from termcolor import colored as c
 import inquirer
 
@@ -64,7 +64,7 @@ def get_choice(the_message):
 
 url = input(f"\nEnter {c('youtube link', 'red')} : ")
 
-video_len = YouTube(url).length
+video_len = CustomYouTubeAPI.get_video_length(url)
 
 print(f"Video length is {c(seconds_to_time(video_len), 'cyan')}")
 
