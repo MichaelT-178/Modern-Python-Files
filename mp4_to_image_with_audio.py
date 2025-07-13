@@ -1,4 +1,4 @@
-from moviepy.editor import AudioFileClip, ImageClip
+from moviepy import AudioFileClip, ImageClip
 #Need to have pygame installed
 
 video_path = 'path/to/video/file.mp4'
