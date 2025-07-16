@@ -42,6 +42,8 @@ These are more modern python files I've created.
 
 - <b>TikTok_Downloader.py</b>: A [tiktok-downloader](https://github.com/n0l3r/tiktok-downloader) wrapper that help makes downloading TikTok videos faster, easier, and less complicated. Fetches the website link, pastes it to your clipboard, allows you to rename the mp4 file, and then saves it to the correct directory.
 
+- <b>Twitter_Downloader.py</b>: A program that uses yt-dlp to download Twitter/X videos. It can also be used to download YouTube videos.
+
 - <b>videos.json</b>: An output file created by the Get_YT_Playlist.py file. It works by the python program getting all the links, titles, and lengths of the videos from a youtube playlist, then writing the info to this JSON file. The user then opens this json file and decides what intervals of the videos they want to download and they can change the title of the video that will be downloaded.
 
 - <b>youtube_api_helper.py</b>: Utilizes the YouTube Data API v3 to perform various tasks since pytube is deprecated.
