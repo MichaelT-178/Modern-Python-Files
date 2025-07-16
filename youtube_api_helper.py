@@ -12,20 +12,20 @@ def get_api_key():
         content = json.load(file)
         return content['api_key']
 
-
 def extract_video_id(url):
     """
-    Extracts the video ID from a YouTube URL.
+    Extracts the video ID from various YouTube URL formats.
     """
-    pattern = r"(?:https?://)?(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)([a-zA-Z0-9_-]{11})"
+    patterns = [
+        r"(?:v=|\/videos\/|embed\/|youtu\.be\/|\/shorts\/|\/live\/)([a-zA-Z0-9_-]{11})"
+    ]
 
-    match = re.match(pattern, url)
+    for pattern in patterns:
+        match = re.search(pattern, url)
+        if match:
+            return match.group(1)
 
-    if match:
-        return match.group(1)
-    
     raise ValueError("Invalid YouTube URL")
-
 
 def get_video_details(api_key, video_id):
     """
