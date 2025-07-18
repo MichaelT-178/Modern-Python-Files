@@ -57,13 +57,16 @@ if "Yes" in clip:
     print("\nFormat examples: 0:00 or 1:15 or 0:01:30")
 
     start = input("Enter start time: ").strip()
-    end = input("Enter end time: ").strip()
+    end = input("Enter end time (leave blank to go to end): ").strip()
 
     new_clip_name = input("\nEnter name for trimmed file (no extension): ").strip()
     clip_path = os.path.join(CURRENT_DOWNLOAD_PATH, f"{new_clip_name}.mp4")
-
+    
     with VideoFileClip(file_path) as video:
-        video.subclipped(time_to_seconds(start), time_to_seconds(end)).write_videofile(
+        start_sec = time_to_seconds(start)
+        end_sec = time_to_seconds(end) if end else video.duration
+
+        video.subclipped(start_sec, end_sec).write_videofile(
             clip_path,
             codec="libx264",
             audio_codec="aac",
