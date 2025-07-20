@@ -41,7 +41,7 @@ if "Yes" in rename:
     output_flag = f'-o "{new_name}.%(ext)s"'
     print(f"File will be saved as: {c(new_name + '.webm', 'blue')}")
 
-download_cmd = f'yt-dlp --no-mtime {output_flag} "{url}"'
+download_cmd = f'yt-dlp --no-mtime --recode-video mp4 {output_flag} "{url}"'
 os.system(download_cmd)
 print(c("VIDEO SUCCESSFULLY DOWNLOADED AND CONVERTED TO MP4", 'green'))
 
