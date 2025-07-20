@@ -2,7 +2,6 @@ import os; os.system('clear')
 import subprocess
 from termcolor import colored as c
 import inquirer
-from moviepy import VideoFileClip
 
 CURRENT_DOWNLOAD_PATH = os.path.expanduser("~/TwitterVideos")
 
@@ -62,17 +61,13 @@ if "Yes" in clip:
     new_clip_name = input("\nEnter name for trimmed file (no extension): ").strip()
     clip_path = os.path.join(CURRENT_DOWNLOAD_PATH, f"{new_clip_name}.mp4")
     
-    with VideoFileClip(file_path) as video:
-        start_sec = time_to_seconds(start)
-        end_sec = time_to_seconds(end) if end else video.duration
+    start_sec = time_to_seconds(start)
+    end_sec = time_to_seconds(end) if end else None
 
-        video.subclipped(start_sec, end_sec).write_videofile(
-            clip_path,
-            codec="libx264",
-            audio_codec="aac",
-            temp_audiofile="temp-audio.m4a",
-            remove_temp=True
-        )
+    duration_flag = f"-t {end_sec - start_sec}" if end_sec else ""
+    ffmpeg_cmd = f'ffmpeg -ss {start_sec} -i "{file_path}" {duration_flag} -c copy "{clip_path}"'
+
+    os.system(ffmpeg_cmd)
 
     print(c("Trimmed file saved successfully!", 'green'))
     open_cmd = f"open '{CURRENT_DOWNLOAD_PATH}'"
