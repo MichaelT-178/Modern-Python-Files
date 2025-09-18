@@ -1,7 +1,9 @@
+from datetime import datetime
 import isodate
 import requests
 import json
 import re
+import pytz
 
 
 def get_api_key():
@@ -39,6 +41,30 @@ def get_video_details(api_key, video_id):
         return response.json()
     
     raise RuntimeError(f"API Error: {response.status_code}, {response.text}")
+
+
+def get_video_upload_time(url):
+    """
+    Fetches the exact upload datetime of a YouTube video in EST/EDT.
+
+    Args:
+        url (str): The YouTube video URL.
+
+    Returns:
+        str: The upload time in EST/EDT, formatted nicely.
+    """
+    api_key = get_api_key()
+    video_id = extract_video_id(url)
+    video_data = get_video_details(api_key, video_id)
+
+    published_at = video_data['items'][0]['snippet']['publishedAt']
+
+    utc_time = datetime.fromisoformat(published_at.replace("Z", "+00:00"))
+
+    eastern = pytz.timezone("America/New_York")
+    local_time = utc_time.astimezone(eastern)
+
+    return local_time.strftime("%B %d, %Y at %I:%M %p %Z")
 
 
 class CustomYouTubeAPI:
