@@ -1,69 +1,119 @@
 """
+CLI Tool to download tiktok videos
 
-This is a command line interface tool to make using
-the tiktok-downloader from the link below easier and
-more efficient.
-
-https://github.com/n0l3r/tiktok-downloader
-
-tiktok-downloader and tiktoks should be on your main
-path for this to work. Ex: /Users/username/tiktoks
+Modified version of this
+https://github.com/vgvr0/TikTok-Video-Downloader-using-Python-and-yt-dlp
 
 """
 
+import yt_dlp
 import os
-import subprocess
+import re
+from typing import Optional, Dict, Any
+from datetime import datetime
 from termcolor import colored as c
-import requests
-# beautifulsoup
-#This command worked to install bs4 -> sudo python3 -m pip install bs4
 
-def get_website_link(app_link: str) -> str:
-	try:
-		response = requests.get(app_link, allow_redirects=True)
-		website_link = response.url
-		return website_link
-	except requests.RequestException as e:
-		print(f"An error occurred: {e}")
-		return None
+# Source: https://github.com/vgvr0/TikTok-Video-Downloader-using-Python-and-yt-dlp
 
-def write_to_clipboard(output: str):
-	process = subprocess.Popen('pbcopy', env={'LANG': 'en_US.UTF-8'}, stdin=subprocess.PIPE)
-	process.communicate(output.encode('utf-8'))
+class TikTokDownloader:
+    def __init__(self, save_path: str = 'tiktok_videos'):
+        self.save_path = save_path
+        self.create_save_directory()
+    
+    def create_save_directory(self) -> None:
+        """Create the save directory if it doesn't exist"""
+        if not os.path.exists(self.save_path):
+            os.makedirs(self.save_path)
+    
+    @staticmethod
+    def validate_url(url: str) -> bool:
+        """ Validate if the provided URL is a TikTok URL """
+        tiktok_pattern = r'https?://((?:vm|vt|www)\.)?tiktok\.com/.*'
+        return bool(re.match(tiktok_pattern, url))
+    
+    @staticmethod
+    def progress_hook(d: Dict[str, Any]) -> None:
+        """
+        Hook to display download progress
+        
+        Args:
+            d (Dict[str, Any]): Progress information dictionary
+        """
+        if d['status'] == 'downloading':
+            progress = d.get('_percent_str', 'N/A')
+            speed = d.get('_speed_str', 'N/A')
+            eta = d.get('_eta_str', 'N/A')
+            print(f"Downloading: {progress} at {speed} ETA: {eta}", end='\r')
+        elif d['status'] == 'finished':
+            print(c("\nDownload completed, finalizing...", 'green'))
+    
+    
+    def get_filename(self, custom_name: Optional[str] = None) -> str:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        if custom_name:
+            # return f"{custom_name}_{timestamp}.mp4"
+            return f"{custom_name}.mp4"
+        
+        return f"tiktok_{timestamp}.mp4"
+    
+    
+    def download_video(self, video_url: str, custom_name: Optional[str] = None) -> Optional[str]:
+        """
+        Download TikTok video
+        
+        Args:
+            video_url (str): URL of the TikTok video
+            custom_name (Optional[str]): Custom name for the video file
+            
+        Returns:
+            Optional[str]: Path to downloaded file if successful, None otherwise
+        """
+        if not self.validate_url(video_url):
+            print("Error: Invalid TikTok URL")
+            return None
 
-print(c("Remember that you can NOT download slideshows", 'red'))
-print(c("The website link will be fetched using the app link and copied to the clipboard.", 'blue'))
+        filename = self.get_filename(custom_name)
+        output_path = os.path.join(self.save_path, filename)
+        
+        ydl_opts = {
+            'outtmpl': output_path,
+            'format': 'best',
+            'noplaylist': True,
+            'quiet': False,
+            'progress_hooks': [self.progress_hook],
+            # 'cookiesfrombrowser': ('chrome',),  # Use Chrome cookies for authentication. Intentionally commented out
+            'extractor_args': {'tiktok': {'webpage_download': True}},
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+        }
 
-link = input("\nEnter TikTok app link: ")
+        try:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([video_url])
+                print(c(f"Video successfully downloaded: {output_path}", 'green'))
+                return output_path
+                
+        except yt_dlp.utils.DownloadError as e:
+            print(c(f"Error downloading video: {str(e)}", 'red'))
+        except Exception as e:
+            print(c(f"An unexpected error occurred: {str(e)}", 'red'))
+        
+        return None
 
-if link.strip():
-	website_link = get_website_link(link)
 
-	write_to_clipboard(website_link)
-	print(c("Website link copied to clipboard", 'green'), end="")
-	print(f": {website_link}")
-	#webbrowser.open(link.strip())
+if __name__ == "__main__":
+    downloader = TikTokDownloader(save_path='../tiktoks')
+    
+    video_url = input("Enter TikTok video link: ")
+    new_file_name = input("\nName the file (w/o extension): ")
+    
+    print(c("\nNOTE: It will say \"Downloading webpage\". That's fine and expected.\n", 'magenta'))
+    
+    # Basic usage
+    # downloader.download_video(video_url)
+    
+    # With custom filename
+    downloader.download_video(video_url, custom_name=new_file_name)
 
-os.chdir("../tiktok-downloader")
-os.system('npm i')
-os.system('node cli/index')
-
-#Get most recently downloaded video name
-os.chdir("../tiktok-downloader/downloads")
-get_file_name = subprocess.check_output("ls -t | head -n 1", shell=True)
-name_of_file = get_file_name.decode('utf-8').strip()
-
-# Name is currently just a giant string of integers. Ex: 7215600292283403566.mp4
-new_name = input("\nName the file (w/o extension): ")
-
-new_name = new_name if new_name.strip() else name_of_file[:-4] #get rid of .mp4 extension
-
-# Rename file
-os.system(f"mv {name_of_file} \"{new_name}\".mp4")
-
-# Move the file
-os.chdir("../..")
-os.system(f"mv ./tiktok-downloader/downloads/\"{new_name}\".mp4 ./tiktoks/")
-
-# Open finder to ensure it was downloaded correctly.
-os.system(f"open -a Finder ./tiktoks/")

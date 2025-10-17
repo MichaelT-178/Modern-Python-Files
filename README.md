@@ -40,7 +40,7 @@ These are more modern python files I've created.
 
 - <b>send_email.py</b>: Sends an email using python
 
-- <b>TikTok_Downloader.py</b>: A [tiktok-downloader](https://github.com/n0l3r/tiktok-downloader) wrapper that help makes downloading TikTok videos faster, easier, and less complicated. Fetches the website link, pastes it to your clipboard, allows you to rename the mp4 file, and then saves it to the correct directory.
+- <b>TikTok_Downloader.py</b>: CLI tool to download TikTok Videos.
 
 - <b>Twitter_Downloader.py</b>: A program that uses yt-dlp to download Twitter/X videos. It can also be used to download YouTube videos.
 
