@@ -106,7 +106,7 @@ class TikTokDownloader:
 if __name__ == "__main__":
     downloader = TikTokDownloader(save_path='../tiktoks')
     
-    video_url = input("Enter TikTok video link: ")
+    video_url = input(f"{c("Enter TikTok video link", "magenta")}: ")
     new_file_name = input("\nName the file (w/o extension): ")
     
     print(c("\nNOTE: It will say \"Downloading webpage\". That's fine and expected.\n", 'magenta'))
@@ -116,4 +116,6 @@ if __name__ == "__main__":
     
     # With custom filename
     downloader.download_video(video_url, custom_name=new_file_name)
+    
+    os.system("open ../tiktoks")
 
