@@ -5,12 +5,18 @@ youtube videos, download specific intervals of the
 video and rename the mp4 file you're downloading.
 """
 
-import os; os.system('clear')
+import json
+import os
+import sys
+import threading
+import time
 import re
 import subprocess
 from youtube_api_helper import CustomYouTubeAPI
 from termcolor import colored as c
 import inquirer
+
+os.system('clear')
 
 save_dir = "a_songs_folder"
 # save_dir = "Youtube_videos"
@@ -62,14 +68,81 @@ def get_choice(the_message):
 	answers = inquirer.prompt(questions)
 	return answers
 
+
+def dot_spinner(message, stop_event):
+    sys.stdout.write("\033[?25l")
+    sys.stdout.flush()
+
+    dot_count = 0
+    while not stop_event.is_set():
+        dots = "." * dot_count
+
+        sys.stdout.write("\r\033[K")
+
+        sys.stdout.write(f"{message}{dots}")
+        sys.stdout.flush()
+
+        dot_count = (dot_count + 1) % 4
+        time.sleep(0.4)
+
+    sys.stdout.write("\r\033[K\033[?25h")
+    sys.stdout.flush()
+
+
+
+def yt_can_clip(url):
+    stop_event = threading.Event()
+
+    t = threading.Thread(target=dot_spinner, args=("Checking clippability", stop_event))
+    t.start()
+
+    try:
+        result = subprocess.check_output(
+            ["yt-dlp", "--dump-single-json", "--skip-download", url],
+            stderr=subprocess.DEVNULL
+        )
+    finally:
+        stop_event.set()
+        t.join()
+
+    data = json.loads(result)
+    formats = data.get("formats", [])
+
+    for f in formats:
+        if (
+            f.get("protocol") == "m3u8_native"
+            and f.get("vcodec") not in (None, "none")
+            and isinstance(f.get("fragments"), list)
+            and len(f.get("fragments")) > 0
+        ):
+            return True
+
+    return False
+
+
+
+
 url = input(f"\nEnter {c('youtube link', 'red')} : ")
 
 video_len = CustomYouTubeAPI.get_video_length(url)
 
 print(f"Video length is {c(seconds_to_time(video_len), 'cyan')}")
 
-message = f"Do you want to download a {c('specific time interval', 'blue')} (y/n) ? "
-is_time_interval = get_choice(message)
+
+is_time_interval = {}
+
+if yt_can_clip(url):
+    message = f"Do you want to download a {c('specific time interval', 'blue')} (y/n) ? "
+    is_time_interval = get_choice(message)
+else:
+    print(c(
+        "This video cannot be clipped directly (HLS video missing). "
+        "You must download the full video THEN clip it.",
+        "red"
+    ))
+    
+    is_time_interval['choice'] = 'No'
+
 
 #'\x1b[32mYes\x1b[0m' the color made the string weird
 if "Yes" in is_time_interval['choice']:
