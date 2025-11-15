@@ -89,7 +89,6 @@ def dot_spinner(message, stop_event):
     sys.stdout.flush()
 
 
-
 def yt_can_clip(url):
     stop_event = threading.Event()
 
@@ -120,6 +119,42 @@ def yt_can_clip(url):
     return False
 
 
+def ffmpeg_manual_clip(input_path):
+	clip_choice = get_choice("Do you want to clip the video now? ")
+	
+	if "Yes" not in clip_choice['choice']:
+		print(c("Done.", "green"))
+		return
+	
+	print("\nThe format has to be (00:00:00) or (00:00). Ex: 3:12:11 or 8:07 or 21:32")
+	
+	start_time = input("\nEnter start time: ").strip()
+	end_time   = input("Enter end time: ").strip()
+
+	base_name = os.path.splitext(input_path)[0]
+	output_path = f"{base_name}_CLIPPED.mp4"
+
+	print(c("\nClipping video with ffmpeg...", "cyan"))
+	
+	cmd = (
+		f'ffmpeg -i "{input_path}" '
+		f'-ss {start_time} -to {end_time} '
+		f'-c:v libx264 -c:a aac -preset fast "{output_path}"'
+	)
+	
+	os.system(cmd)
+
+	print(c(f"\nSuccessfully clipped video -> {output_path}", "green"))
+	
+	delete_og_video = get_choice("Do you want to delete the untrimmed video?")
+
+	if "Yes" in delete_og_video['choice']:
+		try:
+			os.remove(input_path)
+			print(c("Original file deleted.", 'red'))
+		except Exception as e:
+			print(c(f"Failed to delete original file: {e}", 'red'))
+
 
 
 url = input(f"\nEnter {c('youtube link', 'red')} : ")
@@ -131,7 +166,9 @@ print(f"Video length is {c(seconds_to_time(video_len), 'cyan')}")
 
 is_time_interval = {}
 
-if yt_can_clip(url):
+can_clip = yt_can_clip(url)
+
+if can_clip:
     message = f"Do you want to download a {c('specific time interval', 'blue')} (y/n) ? "
     is_time_interval = get_choice(message)
 else:
@@ -241,7 +278,6 @@ if "Yes" in download_vid['choice']:
 		os.system(f"mv {name_of_file} {re.sub(r'\.[^.]+$', '.webm', name_of_file)}")
 		
 	name_of_file_wo_extension = name_of_file.rsplit('.', 1)[0]
-
 	print()
 	convert_vid_message = f"Do you want to convert the video to {c('mp4', 'blue')}? "
 	convert_vid = get_choice(convert_vid_message)
@@ -252,3 +288,6 @@ if "Yes" in download_vid['choice']:
 		print(c("Successfully deleted the webm file and converted to mp4", 'green'))
 
 	print(c("Done", 'green'))
+	
+	if not can_clip:
+		ffmpeg_manual_clip(name_of_file)
