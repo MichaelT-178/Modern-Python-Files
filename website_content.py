@@ -2,7 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-url = "https://www.target.com/"
+"""
+Gets the text and tags of a webpage given a URL.
+"""
+
+url = input("Enter the URL (Ex. https://www.target.com/) : ")
+
 response = requests.get(url)
 
 if response.status_code == 200:
