@@ -1,3 +1,7 @@
+"""
+CLI Tool to download Twitter videos
+"""
+
 import os; os.system('clear')
 import subprocess
 from termcolor import colored as c
