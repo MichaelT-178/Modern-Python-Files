@@ -88,18 +88,44 @@ class TikTokDownloader:
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             }
         }
-
+        
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                ydl.download([video_url])
-                print(c(f"Video successfully downloaded: {output_path}", 'green'))
+
+                # Check formats first
+                info = ydl.extract_info(video_url, download=False)
+
+                formats = info.get("formats", [])
+
+                has_video = any(
+                    f.get("vcodec") not in (None, "none")
+                    for f in formats
+                )
+
+                if not has_video:
+                    print(
+                        c(
+                            "\nERROR: No video stream was found for this TikTok.\n"
+                            "This is likely a photo slideshow, region-restricted post,\n"
+                            "or a TikTok that yt-dlp cannot currently extract.\n",
+                            "red"
+                        )
+                    )
+                    return None
+
+                # Download normally
+                # ydl.download([video_url])
+                ydl.process_info(info)
+
+                print(c(f"Video successfully downloaded: {output_path}", "green"))
                 return output_path
-                
+
         except yt_dlp.utils.DownloadError as e:
-            print(c(f"Error downloading video: {str(e)}", 'red'))
+            print(c(f"Error downloading video: {str(e)}", "red"))
+
         except Exception as e:
-            print(c(f"An unexpected error occurred: {str(e)}", 'red'))
-        
+            print(c(f"An unexpected error occurred: {str(e)}", "red"))
+
         return None
 
 
