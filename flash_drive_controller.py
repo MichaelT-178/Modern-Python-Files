@@ -56,7 +56,7 @@ class FlashDrive:
         """
 
         while True:
-            file_path = input("Please enter the path of the file/folder you want to add (or 'q' to quit): ")
+            file_path = input("Please enter the path of the file/folder you want to add (or 'q' to quit/eject): ")
 
             if file_path.lower().strip() == 'q':
                 print(c("Operation cancelled.", "red"))
@@ -106,7 +106,7 @@ class FlashDrive:
                 print(c("\nThere are currently no files or folders on your Flash Drive.", "red"))
                 return
 
-            file_path = input("Please enter the path of the file/folder you want to delete (or 'q' to quit): ")
+            file_path = input("Please enter the path of the file/folder you want to delete (or 'q' to quit/eject): ")
 
             if file_path.lower().strip() == 'q':
                 print(c("Operation cancelled.", "red"))
@@ -263,6 +263,56 @@ class FlashDrive:
             os.system('clear')
             print_menu()
             return
+        
+    def download_youtube_video(self) -> None:
+        """
+        Downloads a YouTube video directly to the flash drive.
+        """
+
+        if not os.path.exists(self.flash_drive_path):
+            print(c("Flash drive is not mounted.", "red"))
+            return
+        
+        youtube_url = input("\nEnter the YouTube url: ").strip()
+        
+        if not youtube_url:
+            print(c("You must enter a URL.", "red"))
+            return
+
+        custom_name = input(
+            "Enter new file name (no extension): "
+        ).strip()
+
+        if custom_name:
+            custom_name = custom_name.replace("/", "-")
+            output_template = (
+                f"{self.flash_drive_path}/{custom_name}.%(ext)s"
+            )
+        else:
+            output_template = (
+                f"{self.flash_drive_path}/%(title)s.%(ext)s"
+            )
+
+        try:
+            subprocess.run(
+                [
+                    "yt-dlp",
+                    "--no-mtime",
+                    "--merge-output-format",
+                    "mp4",
+                    "-o",
+                    output_template,
+                    youtube_url
+                ],
+                check=True
+            )
+
+            print(
+                c(f"Successfully downloaded video to {self.flash_drive_path}\n", "green")
+            )
+
+        except subprocess.CalledProcessError:
+            print(c("Failed to download video.", "red"))
 
 def print_menu():
     print("Flash Drive Options")
@@ -273,7 +323,8 @@ def print_menu():
     print("5. Remount your flash drive")
     print("6. Eject flash drive from your computer ")
     print("7. Displays all the files from your flash drive")
-    print("8. Explains unmounting vs ejecting a Flash Drive\n")
+    print("8. Explains unmounting vs ejecting a Flash Drive")
+    print("9. Download a YouTube video on your flash drive\n")
 
 
 def choose_option(flash_drive, choice: int):
@@ -294,6 +345,8 @@ def choose_option(flash_drive, choice: int):
             flash_drive.get_all_files()
         case 8:
             flash_drive.explain_unmount_and_eject()
+        case 9:
+            flash_drive.download_youtube_video()
         case _:
             print(c("Invalid number", "red"))
 
@@ -313,21 +366,21 @@ def get_flash_drive():
 
 def prompt_user(flash_drive):
     while True:
-        user_input = input("Choose an option 1-8 (or 'q' to quit): ")
+        user_input = input("Choose an option 1-9 (or 'q' to quit/eject): ")
         
         if user_input.lower() == 'q':
-            print(c("Program quite successfully", "green"))
+            print(c("Program quit successfully", "green"))
             flash_drive.eject_drive()
             break
         
         try:
             user_number = int(user_input)
-            if 1 <= user_number <= 8:
+            if 1 <= user_number <= 9:
                 choose_option(flash_drive, user_number)
             else:
-                print(c("Invalid input. Please enter an integer between 1 and 8.", "red"))
+                print(c("Invalid input. Please enter an integer between 1 and 9.", "red"))
         except ValueError:
-            print(c("Invalid input. Please enter an integer between 1 and 8.", "red"))
+            print(c("Invalid input. Please enter an integer between 1 and 9.", "red"))
 
 
 def main():
