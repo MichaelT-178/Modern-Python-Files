@@ -195,7 +195,7 @@ class FlashDrive:
             print(c(f'Error occurred while ejecting the flash drive: {str(e)}', 'red'))
             exit(0)
 
-    def get_all_files(self) -> [str]:
+    def get_all_files(self) -> list[str]:
         """
         Gets all files from the drive and returns them as a string list. Doesn't include 
         hidden files.
