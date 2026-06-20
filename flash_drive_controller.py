@@ -4,6 +4,7 @@ import shutil
 import subprocess
 import time
 from termcolor import colored as c
+from jsoncomment import JsonComment
 
 class FlashDrive:
     """ 
@@ -72,7 +73,7 @@ class FlashDrive:
                 if confirm.lower().strip() in ["yes", "y"]:
                     break
                 else:
-                    print(f"The file/folder will {c('NOT', 'red')} be added to your flash drive. Please enter a new path.")
+                    print(f"The file/folder will {c('NOT', 'red')} be copied to your flash drive. Please enter a new path.")
             else:
                 print(c("Invalid file/folder path. Please try again.", "red"))
 
@@ -85,7 +86,7 @@ class FlashDrive:
             elif os.path.isdir(file_path):
                 shutil.copytree(file_path, destination_path)
 
-            print(c(f'The file/folder: "{file_name}" was successfully added to the flash drive. Destination: "{destination_path}"', "green"))
+            print(c(f'The file/folder: "{file_name}" was successfully copied to the flash drive. Destination: "{destination_path}"', "green"))
             self.open_flash_drive_in_finder()
         except Exception as e:
             print(c(f'An error occurred while trying to add the file/folder to the flash drive: {str(e)}', 'red'))
@@ -298,9 +299,11 @@ def choose_option(flash_drive, choice: int):
 
 
 def get_flash_drive():
-
-    with open("credentials/data.json", "r") as file:
-        content = json.load(file)
+    
+    parser = JsonComment()
+    
+    with open("credentials/data.jsonc", "r") as file:
+        content = parser.load(file)
         
     name = content['Name']
     identifier = content["Identifier"]
