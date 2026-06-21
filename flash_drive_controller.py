@@ -298,8 +298,8 @@ class FlashDrive:
                 [
                     "yt-dlp",
                     "--no-mtime",
-                    "--merge-output-format",
-                    "mp4",
+                    "-f", "bv*[vcodec~='^avc1']+ba[acodec~='^mp4a']/b[ext=mp4]",
+                    "--merge-output-format", "mp4",
                     "-o",
                     output_template,
                     youtube_url
