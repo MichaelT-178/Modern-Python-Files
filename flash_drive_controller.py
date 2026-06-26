@@ -1,4 +1,3 @@
-import json
 import os
 import shutil
 import subprocess
@@ -17,8 +16,10 @@ class FlashDrive:
     unmount_drive: Unmounts drive from computer 
     remount_drive: Remounts drive from computer 
     eject_drive: ejects drive from computer 
-    get_all_files: Gets all the files from the flash drive as a list.
+    get_all_files: Displays all files on the flash drive.
+    display_storage_information: Displays storage information for the flash drive.
     explain_unmount_and_eject: Explains the difference between unmounting and ejecting a Flash Drive.
+    download_youtube_video: Downloads a YouTube video directly to the flash drive.
     
     Example code at the bottom of this file.
     """
@@ -35,7 +36,7 @@ class FlashDrive:
         self.flash_drive_identifier = flash_drive_identifier
 
 
-    def open_flash_drive_in_finder(self):
+    def open_flash_drive_in_finder(self) -> None:
         """
         Opens flash drive directory in Finder. If error 
         occurs because flash drive can't be found print the 
@@ -155,7 +156,7 @@ class FlashDrive:
         except Exception as e:
             print(c(f'Error occurred while unmounting the flash drive: {str(e)}', 'red'))
 
-    def remount_drive(self):
+    def remount_drive(self) -> None:
         """
         Remounts the flash drive. Prints an error
         if process can't be completed.
@@ -195,51 +196,228 @@ class FlashDrive:
         except Exception as e:
             print(c(f'Error occurred while ejecting the flash drive: {str(e)}', 'red'))
             exit(0)
-
-    def get_all_files(self) -> list[str]:
+    
+    def get_all_files(self) -> None:
         """
-        Gets all files from the drive and returns them as a string list. Doesn't include 
-        hidden files.
+        Displays all files on the flash drive.
         """
         try:
             if not os.path.exists(self.flash_drive_path):
                 print(c("The specified flash drive path does not exist.\n", "red"))
-                exit(0)
-
+                return
+            
             all_files = self._get_files_recursive(self.flash_drive_path)
 
-            if all_files:
-                print("\nThese are all the Files on your Flash Drive:")
-                for file in all_files:
+            system_files = []
+            user_files = []
+
+            inside_system_folder = False
+
+            for file in all_files:
+
+                # Beginning of the system folder
+                if file.startswith("System Volume Information"):
+                    inside_system_folder = True
+                    system_files.append(file)
+                    continue
+
+                # Any indented line immediately after belongs to it
+                if inside_system_folder and file.startswith("    "):
+                    system_files.append(file)
+                    continue
+
+                # Once indentation ends we've left the folder
+                inside_system_folder = False
+                user_files.append(file)
+
+            print("\nFiles")
+            print("-" * 26)
+
+            if user_files:
+                for file in user_files:
                     print(file)
             else:
-                print(c("\nThere are currently no files on your Flash Drive.", "red"))
-                
+                print(c("No user files found.", "yellow"))
+
+            if system_files:
+                print("\nSystem Files")
+                print("-" * 26)
+
+                for file in system_files:
+                    print(file)
+            
+            print()
+
         except Exception as e:
-            print(f'Error occurred while getting files from the flash drive: {str(e)}')
+            print(c(f"Error occurred while getting files from the flash drive: {str(e)}", "red"))
+    
+    
+    def display_storage_information(self) -> None:
+        """
+        Displays storage information for the flash drive, including
+        total/used/free space and file sizes.
+        """
+        try:
+            if not os.path.exists(self.flash_drive_path):
+                print(c("The specified flash drive path does not exist.\n", "red"))
+                return
 
+            total, used, free = shutil.disk_usage(self.flash_drive_path)
 
+            print("\nFlash Drive Storage")
+            print("-" * 26)
+            print(f"Total Space : {self._format_size(total)}")
+            print(f"Used Space  : {self._format_size(used)}")
+            print(f"Free Space  : {self._format_size(free)}")
+
+            all_files = self._get_files_with_sizes_recursive(
+                self.flash_drive_path
+            )
+
+            system_files = []
+            user_files = []
+
+            inside_system_folder = False
+
+            for file in all_files:
+
+                # Beginning of the system folder
+                if file.startswith("System Volume Information"):
+                    inside_system_folder = True
+                    system_files.append(file)
+                    continue
+
+                # Any indented line immediately after belongs to it
+                if inside_system_folder and file.startswith("    "):
+                    system_files.append(file)
+                    continue
+
+                # Once indentation ends we've left the folder
+                inside_system_folder = False
+                user_files.append(file)
+
+            print("\nFiles")
+            print("-" * 26)
+
+            if user_files:
+                for file in user_files:
+                    print(file)
+            else:
+                print(c("No user files found.", "yellow"))
+
+            if system_files:
+                print("\nSystem Files")
+                print("-" * 26)
+
+                for file in system_files:
+                    print(file)
+
+            print()
+
+        except Exception as e:
+            print(c(f"Error occurred while getting storage information: {str(e)}","red"))
+        
+        
     def _get_files_recursive(self, path, level=0):
         """
         Helper function to recursively get files and folders.
         """
         items = []
+
         try:
             for entry in os.listdir(path):
-                if not entry.startswith('.'):
+                if not entry.startswith("."):
                     full_path = os.path.join(path, entry)
-                    indent = '    ' * level
+                    indent = "    " * level
 
                     if os.path.isdir(full_path):
-                        items.append(f"{indent}{entry}")
-                        items.extend(self._get_files_recursive(full_path, level + 1))
+                        items.append(f"{indent}{entry}/")
+                        items.extend(
+                            self._get_files_recursive(
+                                full_path,
+                                level + 1
+                            )
+                        )
                     else:
-                        items.append(f"{indent}- {entry}")
+                        items.append(
+                            f"{indent}- {entry}"
+                        )
 
         except Exception as e:
-            print(f'Error occurred while accessing the path {path}: {str(e)}')
+            print(c(f"Error occurred while accessing {path}: {e}", "red"))
 
         return items
+    
+    
+    def _get_files_with_sizes_recursive(self, path, level=0):
+        """
+        Helper function to recursively get files and folders with sizes.
+        """
+        items = []
+
+        try:
+            for entry in os.listdir(path):
+                if not entry.startswith("."):
+                    full_path = os.path.join(path, entry)
+                    indent = "    " * level
+
+                    if os.path.isdir(full_path):
+                        folder_size = self._get_path_size(full_path)
+                        items.append(
+                            f"{indent}{entry}/ ({self._format_size(folder_size)})"
+                        )
+                        items.extend(
+                            self._get_files_with_sizes_recursive(full_path, level + 1)
+                        )
+                    else:
+                        file_size = os.path.getsize(full_path)
+                        items.append(
+                            f"{indent}- {entry} ({self._format_size(file_size)})"
+                        )
+
+        except Exception as e:
+            print(c(f"Error occurred while accessing the path {path}: {str(e)}", "red"))
+
+        return items
+    
+    
+    def _get_path_size(self, path):
+        """
+        Gets total size of a file or folder.
+        """
+        total_size = 0
+
+        if os.path.isfile(path):
+            return os.path.getsize(path)
+
+        for dirpath, dirnames, filenames in os.walk(path):
+            for filename in filenames:
+                file_path = os.path.join(dirpath, filename)
+
+                if not os.path.islink(file_path):
+                    try:
+                        total_size += os.path.getsize(file_path)
+                    except OSError:
+                        pass
+
+        return total_size
+
+
+    def _format_size(self, size_bytes):
+        """
+        Converts bytes into a readable size.
+        """
+        if size_bytes == 0:
+            return "0 B"
+
+        size_names = ["B", "KB", "MB", "GB", "TB"]
+        i = 0
+
+        while size_bytes >= 1024 and i < len(size_names) - 1:
+            size_bytes /= 1024
+            i += 1
+
+        return f"{size_bytes:.2f} {size_names[i]}"
     
     def copy_file_to_new_location(self, old_file_name, new_path):
         """
@@ -250,7 +428,7 @@ class FlashDrive:
         fd_file_path = f"{self.flash_drive_path}/{old_file_name}"
         os.system(f"cp {fd_file_path} {new_path}")
 
-    def explain_unmount_and_eject(self):
+    def explain_unmount_and_eject(self) -> None:
         print("\nDefinitions")
         print(f"{c('Unmount', 'blue')}: Temporarily disconnect the Flash Drive logically, but not physically. Do this if you plan to reconnect Flash Drive without physically removing it first.")
         print(f"{c('Eject', 'blue')}: Logically and Physically remove the Flash Drive\n") 
@@ -322,9 +500,10 @@ def print_menu():
     print("4. Unmount your flash drive")
     print("5. Remount your flash drive")
     print("6. Eject flash drive from your computer ")
-    print("7. Displays all the files from your flash drive")
-    print("8. Explains unmounting vs ejecting a Flash Drive")
-    print("9. Download a YouTube video on your flash drive\n")
+    print("7. Display all the files on your flash drive")
+    print("8. Display flash drive storage information")
+    print("9. Explains unmounting vs ejecting a Flash Drive")
+    print("10. Download a YouTube video on your flash drive\n")
 
 
 def choose_option(flash_drive, choice: int):
@@ -344,8 +523,10 @@ def choose_option(flash_drive, choice: int):
         case 7:
             flash_drive.get_all_files()
         case 8:
-            flash_drive.explain_unmount_and_eject()
+            flash_drive.display_storage_information()
         case 9:
+            flash_drive.explain_unmount_and_eject()
+        case 10:
             flash_drive.download_youtube_video()
         case _:
             print(c("Invalid number", "red"))
@@ -366,7 +547,7 @@ def get_flash_drive():
 
 def prompt_user(flash_drive):
     while True:
-        user_input = input("Choose an option 1-9 (or 'q' to quit/eject): ")
+        user_input = input("Choose an option 1-10 (or 'q' to quit/eject): ")
         
         if user_input.lower() == 'q':
             print(c("Program quit successfully", "green"))
@@ -375,12 +556,12 @@ def prompt_user(flash_drive):
         
         try:
             user_number = int(user_input)
-            if 1 <= user_number <= 9:
+            if 1 <= user_number <= 10:
                 choose_option(flash_drive, user_number)
             else:
-                print(c("Invalid input. Please enter an integer between 1 and 9.", "red"))
+                print(c("Invalid input. Please enter an integer between 1 and 10.", "red"))
         except ValueError:
-            print(c("Invalid input. Please enter an integer between 1 and 9.", "red"))
+            print(c("Invalid input. Please enter an integer between 1 and 10.", "red"))
 
 
 def main():
