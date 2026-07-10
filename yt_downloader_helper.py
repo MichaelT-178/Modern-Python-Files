@@ -166,7 +166,11 @@ def ffmpeg_manual_clip(input_path):
         f'-c:v libx264 -c:a aac -preset fast "{output_path}"'
     )
     
-    os.system(cmd)
+    result = subprocess.run(cmd, shell=True)
+
+    if result.returncode != 0:
+        print(c("\nffmpeg failed to clip the video.", "red"))
+        return
 
     print(c(f"\nSuccessfully clipped video -> {output_path}", "green"))
     
@@ -305,13 +309,17 @@ if "Yes" in download_vid['choice']:
     print()
     convert_vid_message = f"Do you want to convert the video to {c('mp4', 'blue')}? "
     convert_vid = get_choice(convert_vid_message)
+    
+    clip_file = name_of_file
 
     if "Yes" in convert_vid['choice']:
-        os.system(f"ffmpeg -i \"{name_of_file_wo_extension}\".webm \"{name_of_file_wo_extension}\".mp4")
+        os.system(f'ffmpeg -i "{name_of_file_wo_extension}.webm" "{name_of_file_wo_extension}.mp4"')
         os.remove(f"{name_of_file_wo_extension}.webm")
         print(c("Successfully deleted the webm file and converted to mp4", 'green'))
 
+        clip_file = f"{name_of_file_wo_extension}.mp4"
+
     print(c("Done", 'green'))
-    
+
     if not can_clip:
-        ffmpeg_manual_clip(name_of_file)
+        ffmpeg_manual_clip(clip_file)
