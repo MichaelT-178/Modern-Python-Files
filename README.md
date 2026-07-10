@@ -52,4 +52,4 @@ These are more modern python files I've created.
 
 - <b>youtube_api_helper.py</b>: Utilizes the YouTube Data API v3 to perform various tasks since pytube is deprecated.
 
-- <b>YT_downloader_helper</b> A CLI wrapper tool that I built to simplify the process of downloading YouTube videos and clipping them.
+- <b>yt_downloader_helper</b> A CLI wrapper tool that I built to simplify the process of downloading YouTube videos and clipping them.
