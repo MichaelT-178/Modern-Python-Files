@@ -2,7 +2,7 @@
 Fast YouTube downloader/clipper.
 
 - Uses subprocess.run everywhere (no os.system).
-- Can clip a time range WITHOUT downloading the full video first,
+- Can clip a time range without downloading the full video first,
   via yt-dlp's --download-sections (only pulls the needed fragments/byte-range).
 - Always outputs a final .mp4 (same fast format selector the flash drive
   script uses: avc1 video + mp4a audio, or a pre-muxed mp4 fallback).
@@ -91,8 +91,6 @@ def prompt_clip_range(video_len: int) -> tuple[str, str] | None:
 
 
 def prompt_filename() -> str | None:
-    if not ask_yes_no("\nRename the output file?"):
-        return None
     name = input("New file name (no extension): ").strip()
     name = re.sub(r'[\\/:*?"<>|]', "-", name)
     return name or None
