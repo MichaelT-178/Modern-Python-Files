@@ -91,7 +91,7 @@ def prompt_clip_range(video_len: int) -> tuple[str, str] | None:
 
 
 def prompt_filename() -> str | None:
-    name = input("New file name (no extension): ").strip()
+    name = input("\nNew file name (no extension): ").strip()
     name = re.sub(r'[\\/:*?"<>|]', "-", name)
     return name or None
 
