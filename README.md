@@ -28,6 +28,8 @@ These are more modern python files I've created.
 
 - <b>og_main_algorithm.py</b>: The original main algorithm I used for the [Livestream Directory](https://github.com/MichaelT-178/LivestreamDirectory). After Corey stopped live streaming I rewrote it in C# to add new features, make it more organized, try out a new language, etc. I created this algorithm in Summer 2022 and used it up until about Fall 2023.
 
+- <b>old_yt_downloader_helper</b> The old CLI wrapper tool that I built to simplify the process of downloading YouTube videos and clipping them.
+
 - <b>read_excel.py</b>: Read's the data of an excel spreadsheet.
 
 - <b>read_file.py</b>: Super simple file for whenever I need to read a txt file.
