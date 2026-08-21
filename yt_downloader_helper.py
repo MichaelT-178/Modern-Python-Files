@@ -101,6 +101,10 @@ def build_command(url: str, clip_range: tuple[str, str] | None, filename: str | 
 
     cmd = [
         "yt-dlp",
+
+        "--extractor-args",
+        "youtube:player_client=web_embedded",
+
         "--no-mtime",
         "-f", FORMAT,
         "--merge-output-format", "mp4",
