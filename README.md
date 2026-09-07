@@ -22,6 +22,8 @@ These are more modern python files I've created.
 
 - <b>Get_YT_Playlist</b>: A program that downloads every video from from a youtube playlist.
 
+- <b>Instagram_Downloader.py</b>: CLI tool to download Instagram Videos.
+
 - <b>install_yt-dlp</b>: A program to help with the [youtube downloader](https://github.com/ytdl-org/youtube-dl) installation process. 
 
 - <b>NameStatsUPDATED</b>: A more cleanly written version of the original [NameStats](https://github.com/MichaelT-178/Ancient-Python-Files/blob/main/NameStats.py) program that I made my when I started coding. The original can be found in the Ancient-Python-Files repository.
