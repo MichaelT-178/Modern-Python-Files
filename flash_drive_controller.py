@@ -62,7 +62,7 @@ class FlashDrive:
             if file_path.lower().strip() == 'q':
                 print(c("Operation cancelled.", "red"))
                 time.sleep(1)
-                os.system('clear')
+                subprocess.run(["clear"])
                 print_menu()
                 return
 
@@ -112,7 +112,7 @@ class FlashDrive:
             if file_path.lower().strip() == 'q':
                 print(c("Operation cancelled.", "red"))
                 time.sleep(1)
-                os.system('clear')
+                subprocess.run(["clear"])
                 print_menu()
                 return
 
@@ -426,7 +426,7 @@ class FlashDrive:
         :param new_path: The new path the file will be copied to.
         """
         fd_file_path = f"{self.flash_drive_path}/{old_file_name}"
-        os.system(f"cp {fd_file_path} {new_path}")
+        subprocess.run(['cp', fd_file_path, new_path])
 
     def explain_unmount_and_eject(self) -> None:
         print("\nDefinitions")
@@ -438,7 +438,7 @@ class FlashDrive:
         if understood.lower().strip() in ["yes", "y"]:
             print(c("Great!", "green"))
             time.sleep(1)
-            os.system('clear')
+            subprocess.run(["clear"])
             print_menu()
             return
         
