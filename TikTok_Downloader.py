@@ -6,6 +6,8 @@ https://github.com/vgvr0/TikTok-Video-Downloader-using-Python-and-yt-dlp
 
 """
 
+import subprocess
+
 import yt_dlp
 import os
 import re
@@ -143,5 +145,5 @@ if __name__ == "__main__":
     # With custom filename
     downloader.download_video(video_url, custom_name=new_file_name)
     
-    os.system("open ../tiktoks")
+    subprocess.run(["open", "../tiktoks"])
 
