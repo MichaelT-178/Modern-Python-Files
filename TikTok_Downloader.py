@@ -59,6 +59,19 @@ class TikTokDownloader:
         
         return f"tiktok_{timestamp}.mp4"
     
+    def download_with_cookies(self, video_url: str, output_path: str) -> Optional[str]:
+        print(c("\nAge-restricted post. Retrying with Chrome cookies...", "yellow"))
+        print(c("You need to be logged into TikTok in Chrome for this to work.", "yellow"))
+        print(c("Enter your computer password when prompted.\n", "yellow"))
+        result = subprocess.run(["yt-dlp", "--cookies-from-browser", "chrome", "-f", "best", "-o", output_path, video_url])
+        
+        if result.returncode == 0:
+            print(c(f"Video successfully downloaded: {output_path}", "green"))
+            return output_path
+        
+        print(c("Download with cookies failed.", "red"))
+        return None
+    
     
     def download_video(self, video_url: str, custom_name: Optional[str] = None) -> Optional[str]:
         """
@@ -123,7 +136,10 @@ class TikTokDownloader:
                 return output_path
 
         except yt_dlp.utils.DownloadError as e:
-            print(c(f"Error downloading video: {str(e)}", "red"))
+            if "Log in for access" in str(e):
+                return self.download_with_cookies(video_url, output_path)
+            else:
+                print(c(f"Error downloading video: {str(e)}", "red"))
 
         except Exception as e:
             print(c(f"An unexpected error occurred: {str(e)}", "red"))
@@ -146,4 +162,3 @@ if __name__ == "__main__":
     downloader.download_video(video_url, custom_name=new_file_name)
     
     subprocess.run(["open", "../tiktoks"])
-
