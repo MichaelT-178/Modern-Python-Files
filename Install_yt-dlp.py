@@ -1,4 +1,5 @@
 import os
+import subprocess
 import webbrowser
 
 """
@@ -20,52 +21,52 @@ def printColorfulMessage(txt: str, num: int):
 
 printColorfulMessage("THIS THING WILL (MIGHT) TAKE A *LONG* TIME TO RUN. I STRONGLY SUGGEST BEING ON WIFI AND NOT A HOTSPOT", 31)
 printColorfulMessage("Installing yt-dlp", 32)
-os.system("sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl")
-os.system("sudo chmod a+rx /usr/local/bin/youtube-dl")
+subprocess.run("sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl", shell=True)
+subprocess.run("sudo chmod a+rx /usr/local/bin/youtube-dl", shell=True)
 
 print("\n\n\n\n")
 
 printColorfulMessage("Installing Homebrew", 35)
 printColorfulMessage("This will take a WHILE", 31)
-os.system('/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"')
+subprocess.run('/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"', shell=True)
 
 print("\n\n\n\n")
 
 printColorfulMessage("Checking homebrew is installed.", 34)
 printColorfulMessage("If this just outputs warnings, you're good", 32)
-os.system('brew doctor')
+subprocess.run('brew doctor', shell=True)
 
 printColorfulMessage("Installing pip.", 35)
-os.system('curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py')
+subprocess.run('curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py', shell=True)
 
 
 printColorfulMessage("Checking that pip is installed. Should return a version", 32)
-print("The output: ", end="")
-os.system("pip --version")
+print("The output: ", end="", flush=True)
+subprocess.run("pip --version", shell=True)
 
 print("\n\n\n\n")
 printColorfulMessage("Installing yt-dlp.", 31)
-os.system("brew install ffmpeg")
-os.system("brew install yt-dlp")
-os.system("brew upgrade")
+subprocess.run("brew install ffmpeg", shell=True)
+subprocess.run("brew install yt-dlp", shell=True)
+subprocess.run("brew upgrade", shell=True)
 
 print("\n\n\n\n")
 
 printColorfulMessage('Checking yt-dlp installed correctly. Should output /opt/homebrew/bin/yt-dlp', 36)
-print("The output: ", end="")
-os.system("which yt-dlp")
+print("The output: ", end="", flush=True)
+subprocess.run("which yt-dlp", shell=True)
 
 print("\n\n\n\n")
 printColorfulMessage("Reverting to stable (This might be unnecessary). ", 31)
-os.system("pip uninstall yt-dlp")
-os.system("pip uninstall yt-dlp")
+subprocess.run("pip uninstall yt-dlp", shell=True)
+subprocess.run("pip uninstall yt-dlp", shell=True)
 
 print("\n\n\n\n")
 
 printColorfulMessage("Making updates to brew package", 35)
 
-os.system('brew upgrade librist')
-os.system('brew upgrade mbedtls')
+subprocess.run('brew upgrade librist', shell=True)
+subprocess.run('brew upgrade mbedtls', shell=True)
 
 print("\n\n\n\n")
 
@@ -75,6 +76,5 @@ open_repo = input("\nDo you want to open the command-line interface program repo
 
 if open_repo.strip().upper() in ["YES", "Y"]:
     webbrowser.open("https://github.com/MichaelT-178/Ancient-Python-Files/blob/main/newer_old_files/YT_downloader_helper.py")
-
-
+    
 
