@@ -3,8 +3,8 @@ Downloads a playlist of youtube videos as mp3 files
 """
 from pytube import Playlist, YouTube
 from termcolor import colored as c
-import os; os.system('clear')
-import subprocess
+import os
+import subprocess; subprocess.run('clear', shell=True)
 
 # Path where you want the downloaded songs to be
 download_path = "../neil_songs"
@@ -31,13 +31,13 @@ video_links = [YouTube(v).watch_url for v in playlist.video_urls]
 
 # Start downloading the links as mp3's
 for link in video_links:
-    os.system(f'yt-dlp --extract-audio --audio-format mp3 --prefer-ffmpeg "{link}"')
+    subprocess.run(f'yt-dlp --extract-audio --audio-format mp3 --prefer-ffmpeg "{link}"', shell=True)
     print("\n\n")
     print(c("Download complete", 'blue'))
     print("\n\n")
 
 #Clear console
-os.system("clear")
+subprocess.run("clear", shell=True)
 
 def get_file_names(path):
     files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
@@ -53,10 +53,6 @@ for file_name in file_names:
     new_name = input("New name for file (No extension) : ")
 
     if new_name.strip() != "" and "mp3" in file_name:
-        os.system(f'mv "{file_name[:-4]}".mp3 "{new_name}".mp3')
+        subprocess.run(f'mv "{file_name[:-4]}".mp3 "{new_name}".mp3', shell=True)
         print(c("Name successfully changed!\n", 'green'))
-
-
-
-
 
