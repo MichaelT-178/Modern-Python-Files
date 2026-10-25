@@ -1,4 +1,5 @@
 import os
+import subprocess
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from termcolor import colored as c
 
@@ -25,7 +26,7 @@ def time_to_seconds(time_str):
     else:
         raise ValueError(f"Invalid time format: {time_str}")
 
-os.system('clear')
+subprocess.run('clear', shell=True)
 
 # Have ../ at the beginning and treat it like your 
 # in your root directory. We'll also save the file in this path
@@ -104,4 +105,4 @@ with VideoFileClip(original_full_path) as video:
 
 print(c('\nFile saved successfully!', 'green'))
 
-os.system(f'open {path_to_original_file}')
+subprocess.run(f'open {path_to_original_file}', shell=True)
