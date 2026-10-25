@@ -1,7 +1,6 @@
 """
 Fast YouTube downloader/clipper.
 
-- Uses subprocess.run everywhere (no os.system).
 - Can clip a time range without downloading the full video first,
   via yt-dlp's --download-sections (only pulls the needed fragments/byte-range).
 - Always outputs a final .mp4 (same fast format selector the flash drive
