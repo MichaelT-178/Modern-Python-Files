@@ -1,6 +1,6 @@
 import qrcode
 from termcolor import colored as c
-import os
+import subprocess
 
 """
 Run program to be prompted for link.
@@ -45,6 +45,6 @@ confirmation = input(c(f"\nCreate QR Code for \"{website_link}\" and save in the
 
 if confirmation.upper().strip() in ['YES', 'Y']:
     generate_qr_code(website_link, output_image_name)
-    os.system(f"open -a Finder {output_path}")
+    subprocess.run(f"open -a Finder {output_path}", shell=True)
 else:
     print(c("Process cancelled", 'red'))
