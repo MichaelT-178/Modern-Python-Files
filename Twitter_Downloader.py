@@ -2,8 +2,8 @@
 CLI Tool to download Twitter videos
 """
 
-import os; os.system('clear')
-import subprocess
+import os
+import subprocess; subprocess.run('clear', shell=True)
 from termcolor import colored as c
 import inquirer
 
@@ -15,7 +15,7 @@ if not os.path.exists(CURRENT_DOWNLOAD_PATH):
     exit(0)
 
 os.chdir(CURRENT_DOWNLOAD_PATH)
-os.system(f"open -a Finder '{CURRENT_DOWNLOAD_PATH}'")
+subprocess.run(f"open -a Finder '{CURRENT_DOWNLOAD_PATH}'", shell=True)
 print(f"{c('CURRENT DOWNLOAD PATH', 'magenta')}: {CURRENT_DOWNLOAD_PATH}/")
 
 def get_choice(message):
@@ -46,7 +46,7 @@ if "Yes" in rename:
     print(f"File will be saved as: {c(new_name + '.webm', 'blue')}")
 
 download_cmd = f'yt-dlp --no-mtime --recode-video mp4 {output_flag} "{url}"'
-os.system(download_cmd)
+subprocess.run(download_cmd, shell=True)
 print(c("VIDEO SUCCESSFULLY DOWNLOADED AND CONVERTED TO MP4", 'green'))
 
 # --------- GET DOWNLOADED FILE NAME ----------
@@ -71,11 +71,11 @@ if "Yes" in clip:
     duration_flag = f"-t {end_sec - start_sec}" if end_sec else ""
     ffmpeg_cmd = f'ffmpeg -ss {start_sec} -i "{file_path}" {duration_flag} -c copy "{clip_path}"'
 
-    os.system(ffmpeg_cmd)
+    subprocess.run(ffmpeg_cmd, shell=True)
 
     print(c("Trimmed file saved successfully!", 'green'))
     open_cmd = f"open '{CURRENT_DOWNLOAD_PATH}'"
-    os.system(open_cmd)
+    subprocess.run(open_cmd, shell=True)
     
     delete_og_video = get_choice("Do you want to delete the untrimmed video?")
     
