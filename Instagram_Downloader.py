@@ -124,7 +124,7 @@ class InstagramDownloader:
         return None
 
     def open_save_folder(self) -> None:
-        """Open the save folder in the OS file manager (cross-platform, no os.system)."""
+        """Open the save folder in the OS file manager."""
         try:
             if sys.platform == "darwin":
                 subprocess.run(["open", self.save_path], check=False)
