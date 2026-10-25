@@ -1,4 +1,5 @@
 import os
+import subprocess
 from termcolor import colored as c
 
 """
@@ -31,7 +32,7 @@ def format_time(time: str) -> str:
     
     return f"{hours:02}:{minutes:02}:{seconds:02}"
 
-os.system('clear')
+subprocess.run('clear', shell=True)
 
 # Have ../ at the beginning and treat it like your 
 # in your root directory. We'll also save the file in this path
@@ -98,15 +99,14 @@ new_file_path = path_to_original_file + '/' + new_file_name + '.mp4'
 # ffmpeg -i input.mp4 -ss "00:08:16.527" -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart output.mp4
 # ffmpeg -i input.mp4 -ss "00:04:14.643" -to "00:08:16.527" -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart output.mp4
 # Solution -> https://www.reddit.com/r/ffmpeg/comments/i4rtab/comment/g0kmjua/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-os.system(f'ffmpeg -i {original_full_path} -ss {start_time} -to {end_time} -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart {new_file_path}')
+subprocess.run(f'ffmpeg -i {original_full_path} -ss {start_time} -to {end_time} -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart {new_file_path}', shell=True)
 
 print(c('\nFile saved successfully!', 'green'))
 
-os.system(f'open {path_to_original_file}')
+subprocess.run(f'open {path_to_original_file}', shell=True)
 
 delete_og_file = input(f"{c('\nDo you want to permanently remove the original video', 'red')} {c('(Y/N)', 'blue')} : ")
 
 if delete_og_file.strip().upper() in ['YES', 'Y']:
     os.remove(original_full_path)
     print(c(f'Original file \"{original_full_path}\" successfully deleted!','green'))
-
