@@ -3,6 +3,7 @@ Tool to help remove unused XCode simulators that are taking up space.
 """
 
 import os
+import subprocess
 
 os.chdir("..")
 
@@ -16,4 +17,4 @@ for file in files:
         confirm = input(f"Do you want to remove the file {file}? : ")
         
         full_path = os.path.join(path, file)
-        os.system(f"sudo rm -rf '{full_path}'")
+        subprocess.run(f"sudo rm -rf '{full_path}'", shell=True)
