@@ -7,7 +7,8 @@ and run the program.
 import json
 from pytube import Playlist, YouTube
 from termcolor import colored as c
-import os; os.system('clear')
+import os
+import subprocess; subprocess.run('clear', shell=True)
 
 playlist_url = 'https://youtube.com/playlist?list=PL-TO19HLnaQM-VxPfkQg1jZQSh2RBT9qr&si=ks-mLPfxXhGA8Cz4'
 
@@ -142,13 +143,13 @@ if download_playlist.strip().upper() in ["YES", 'Y']:
             
             if video.Start_Time != "" and video.End_Time != "":
                 print(f"\nLength of download will be -> {download_length}")
-                os.system(f'yt-dlp {video.Title} "{video.Link}" --download-sections "*{video.Start_Time}-{video.End_Time}"')
+                subprocess.run(f'yt-dlp {video.Title} "{video.Link}" --download-sections "*{video.Start_Time}-{video.End_Time}"', shell=True)
                 print(c("VIDEO SUCCESSFULLY DOWNLOADED\n", 'green'))
 
     open_folder = input("\nOpen folder? : ")
 
     if open_folder.strip().upper() in ["YES", "Y"]:
         os.chdir("..")
-        os.system(f"open {new_directory}")
+        subprocess.run(f"open {new_directory}", shell=True)
 
         print(c("Done", 'green'))
